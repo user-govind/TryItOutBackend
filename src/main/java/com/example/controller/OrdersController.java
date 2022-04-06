@@ -28,7 +28,7 @@ public class OrdersController {
 			options.put("amount", order.getAmount()*100);
 			options.put("currency", "INR");
 			options.put("receipt", "txn_123456");
-			razorOrder = JSONValue.parse(client.Orders.create(options));
+			razorOrder = client.Orders.create(options);
 			
 			orderInfo.setId(order.getId());
 			orderInfo.setAmount(razorOrder.get("amount"));
