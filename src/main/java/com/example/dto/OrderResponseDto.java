@@ -1,6 +1,6 @@
 package com.example.dto;
 
-public class OrderDto {
+public class OrderResponseDto {
 	
 	private int id;
 	private String orderId;

@@ -3,7 +3,6 @@ package com.example.entity;
 import java.sql.Timestamp;
 import java.util.List;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +15,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
+
+
 
 @Entity
 @Table(name = "product_table")
@@ -32,6 +36,10 @@ public class Product {
 	private double price;
 	private String productImg;
 	
+
+	@OneToMany(mappedBy="product")
+	@JsonIgnore
+	private List<UserProducts> userProdcuts;
 	
 	@CreationTimestamp
 	private Timestamp creationTimestamp;
@@ -49,9 +57,7 @@ public class Product {
 	
 	private String brand;
 	
-	@OneToMany(mappedBy="product")
-	@JsonIgnore
-	private List<UserProducts> UserProdcuts;
+	
 	
 	public String getBrand() {
 		return brand;
@@ -100,7 +106,6 @@ public class Product {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 	
 
 	public int getProductId() {
@@ -152,11 +157,11 @@ public class Product {
 	}
 
 	public List<UserProducts> getUserProdcuts() {
-		return UserProdcuts;
+		return userProdcuts;
 	}
 
 	public void setUserProdcuts(List<UserProducts> userProdcuts) {
-		UserProdcuts = userProdcuts;
+		userProdcuts = userProdcuts;
 	}
 
 	public Timestamp getCreationTimestamp() {

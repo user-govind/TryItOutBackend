@@ -108,13 +108,15 @@ public class UserServiceImple implements UserService {
 			
 			cartProduct.setCart(c);
 			Product product = genProductRepo.findById(p.getProductid()).get();
-			
-			if( genUserproductsRepo.findByProduct(product)!=null)
+			UserProducts up = genUserproductsRepo.findByProduct(product);
+			System.out.println(product);
+			System.out.println(up);
+			if(up==null)
 				cartProduct.setProduct(product);
 			else {
 				throw new UserAlreadyPresent();
 			}
-			
+	
 			cartProduct.setQuantity(p.getQuantity());
 			
 			cartProduct.setVisiblity("Pending");
@@ -124,6 +126,7 @@ public class UserServiceImple implements UserService {
 			
 		}
 		catch(UserAlreadyPresent e) {
+			e.printStackTrace();
 			throw new UserAlreadyPresent("User is already present");
 		}
 		catch(Exception e){

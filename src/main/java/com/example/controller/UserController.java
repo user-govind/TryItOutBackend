@@ -151,12 +151,10 @@ public class UserController {
 	public boolean addtoCart(@RequestBody CartProductsDto cartProducts ) {
 		
 		try {
-			System.out.println(cartProducts.getProductid());
-			System.out.println(cartProducts.getQuantity());
-			System.out.println(cartProducts.getUserid());
 			userServ.addtoCartProduct(cartProducts);
 		}
 		catch(UserAlreadyPresent e) {
+			e.printStackTrace();
 			throw new UserAlreadyPresent("User is already present");
 		}
 		catch(Exception e){

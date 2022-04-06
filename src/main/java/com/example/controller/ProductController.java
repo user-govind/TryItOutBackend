@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.ProductAddDto;
@@ -23,8 +24,8 @@ public class ProductController {
 	@Autowired
 	private ProductServiceImple productService;
 	
-	
-	public Product addproduct(Product p) {
+	@PostMapping("/add")
+	public Product addproduct(@RequestBody Product p) {
 		p.setStatus("Added");
 		try {
 			
@@ -35,7 +36,6 @@ public class ProductController {
 			
 		}	
 	}
-
 	
 
 	@PostMapping("/add-product")

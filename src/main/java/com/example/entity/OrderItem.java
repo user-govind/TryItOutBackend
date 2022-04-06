@@ -32,6 +32,12 @@ public class OrderItem {
 //	@JsonFormat(pattern = "dd/mm/yyyy hh:mm:ss")
 	private LocalDate date;
 	
+	private double amount;
+	
+	private String receipt;
+	
+	private int attempts;
+	
 	@CreationTimestamp
 	private Timestamp creationTimestamp;
 	
@@ -84,6 +90,30 @@ public class OrderItem {
 
 	public void setDate(LocalDate date) {
 		this.date = date;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public String getReceipt() {
+		return receipt;
+	}
+
+	public void setReceipt(String receipt) {
+		this.receipt = receipt;
+	}
+
+	public int getAttempts() {
+		return attempts;
+	}
+
+	public void setAttempts(int attempts) {
+		this.attempts = attempts;
 	}
 	
 	

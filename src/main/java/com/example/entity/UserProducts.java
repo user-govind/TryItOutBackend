@@ -2,6 +2,7 @@ package com.example.entity;
 
 import java.sql.Timestamp;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +14,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
+import javax.persistence.Column;
 @Entity
 @Table(name = "User_Products")
 public class UserProducts {
@@ -22,14 +23,14 @@ public class UserProducts {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private int id;
 	
-
+	@ManyToOne
+	@JoinColumn(name="cartId", nullable=false)
+	private Cart cart;
 	@ManyToOne
 	@JoinColumn(name="productId", nullable=false)
 	private Product product;
 	
-	@ManyToOne
-	@JoinColumn(name="cartId", nullable=false)
-	private Cart cart;
+
 	
 	private int quantity;
 
