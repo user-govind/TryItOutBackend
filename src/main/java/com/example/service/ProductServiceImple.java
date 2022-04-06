@@ -22,7 +22,6 @@ public class ProductServiceImple implements ProductService {
 		
 		try {
 			//System.out.println(p.getDescription().length());
-			
 			return productRepo.save(p);
 		}
 		catch(Exception e) {
@@ -40,6 +39,7 @@ public class ProductServiceImple implements ProductService {
 	 	
 		}
 		catch(Exception e) {
+		e.printStackTrace();
 			throw new UserException("Products are not found!!");
 		}
 	}

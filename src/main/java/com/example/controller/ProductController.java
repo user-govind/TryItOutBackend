@@ -71,14 +71,6 @@ public class ProductController {
 		return true;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	@PostMapping("/all-products")
 	public List<Product> featchAllProducts(){
 		try {

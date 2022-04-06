@@ -49,6 +49,10 @@ public class Product {
 	
 	private String brand;
 	
+	@OneToMany(mappedBy="product")
+	@JsonIgnore
+	private List<UserProducts> UserProdcuts;
+	
 	public String getBrand() {
 		return brand;
 	}
@@ -97,9 +101,7 @@ public class Product {
 		this.status = status;
 	}
 
-	@OneToMany(mappedBy="product")
-	@JsonIgnore
-	private List<UserProducts> UserProdcuts;
+	
 
 	public int getProductId() {
 		return productId;

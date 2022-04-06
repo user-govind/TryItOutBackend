@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import com.example.dto.CartProductsDto;
 import com.example.dto.UserLoginDto;
 import com.example.entity.Cart;
+import com.example.entity.Product;
 import com.example.entity.User;
 import com.example.entity.UserProducts;
+import com.example.exception.UserAlreadyPresent;
 import com.example.exception.UserException;
 import com.example.exception.UserRegistrationException;
 import com.example.repository.GenericCartRepo;
@@ -86,6 +88,8 @@ public class UserServiceImple implements UserService {
 			return genUserRepo.findById(id).get();
 		}catch(Exception e)
 		{
+			System.out.println(id);
+			e.printStackTrace();
 			throw new UserException("User with id not found");
 		}
 		
@@ -95,14 +99,21 @@ public class UserServiceImple implements UserService {
 	public UserProducts addtoCartProduct(CartProductsDto p) {
 		UserProducts cartProduct;
 		try {
+			
+			
 			User u = getUserById(p.getUserid());
 			Cart c = genCartRepo.findByUser(u);
 			
-			 cartProduct  = new UserProducts();
+			cartProduct  = new UserProducts();
 			
 			cartProduct.setCart(c);
+			Product product = genProductRepo.findById(p.getProductid()).get();
 			
-			cartProduct.setProduct(genProductRepo.findById(p.getProductid()).get());
+			if( genUserproductsRepo.findByProduct(product)!=null)
+				cartProduct.setProduct(product);
+			else {
+				throw new UserAlreadyPresent();
+			}
 			
 			cartProduct.setQuantity(p.getQuantity());
 			
@@ -112,7 +123,11 @@ public class UserServiceImple implements UserService {
 			
 			
 		}
+		catch(UserAlreadyPresent e) {
+			throw new UserAlreadyPresent("User is already present");
+		}
 		catch(Exception e){
+			e.printStackTrace();
 			throw new UserException("Cart");
 		}
 		

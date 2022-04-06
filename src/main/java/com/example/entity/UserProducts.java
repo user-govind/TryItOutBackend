@@ -2,6 +2,7 @@ package com.example.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,7 @@ public class UserProducts {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private int id;
 	
+
 	@ManyToOne
 	@JoinColumn(name="productId", nullable=false)
 	private Product product;

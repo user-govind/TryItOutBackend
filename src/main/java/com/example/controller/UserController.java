@@ -23,6 +23,7 @@ import com.example.dto.UserLoginDto;
 import com.example.entity.Cart;
 import com.example.entity.Role;
 import com.example.entity.User;
+import com.example.exception.UserAlreadyPresent;
 import com.example.exception.UserException;
 import com.example.exception.UserRegistrationException;
 import com.example.service.CartService;
@@ -146,11 +147,17 @@ public class UserController {
 		return false;
 	}
 	
-	@PostMapping("/add-Cart")
+	@PostMapping("/add-product-cart")
 	public boolean addtoCart(@RequestBody CartProductsDto cartProducts ) {
 		
 		try {
+			System.out.println(cartProducts.getProductid());
+			System.out.println(cartProducts.getQuantity());
+			System.out.println(cartProducts.getUserid());
 			userServ.addtoCartProduct(cartProducts);
+		}
+		catch(UserAlreadyPresent e) {
+			throw new UserAlreadyPresent("User is already present");
 		}
 		catch(Exception e){
 			e.printStackTrace();
