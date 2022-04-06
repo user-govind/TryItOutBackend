@@ -49,7 +49,7 @@ public class User {
 	private Timestamp creationTimestamp;
 	
 	@UpdateTimestamp
-    @ColumnDefault("CURRENT_TIMESTAMP")
+   // @ColumnDefault("CURRENT_TIMESTAMP")
 	private Timestamp updationTimestamp;
 	
 	private String status;

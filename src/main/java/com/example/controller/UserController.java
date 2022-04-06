@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dto.CartProductsDto;
 import com.example.dto.OtpVerify;
 import com.example.dto.ProfilePic;
 import com.example.dto.UserLoginDto;
@@ -145,5 +146,17 @@ public class UserController {
 		return false;
 	}
 	
-
+	@PostMapping("/add-Cart")
+	public boolean addtoCart(@RequestBody CartProductsDto cartProducts ) {
+		
+		try {
+			userServ.addtoCartProduct(cartProducts);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw new UserException("cart not available");
+		}
+		return true;
+	}
+	
 }

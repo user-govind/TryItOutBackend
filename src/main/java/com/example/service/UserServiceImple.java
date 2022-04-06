@@ -5,18 +5,34 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.dto.CartProductsDto;
 import com.example.dto.UserLoginDto;
+import com.example.entity.Cart;
 import com.example.entity.User;
+import com.example.entity.UserProducts;
 import com.example.exception.UserException;
 import com.example.exception.UserRegistrationException;
+import com.example.repository.GenericCartRepo;
+import com.example.repository.GenericProductReopository;
+import com.example.repository.GenericUserProductRepo;
 import com.example.repository.GenericUserRepository;
+
 
 @Service
 @Transactional
 public class UserServiceImple implements UserService {
 	
 	@Autowired
+	private GenericUserProductRepo genUserproductsRepo;
+	
+	@Autowired
 	private GenericUserRepository genUserRepo;
+	
+	@Autowired
+	private GenericCartRepo genCartRepo;
+	
+	@Autowired
+	private GenericProductReopository genProductRepo;
 	
 
 	@Override
@@ -71,6 +87,33 @@ public class UserServiceImple implements UserService {
 		}catch(Exception e)
 		{
 			throw new UserException("User with id not found");
+		}
+		
+	}
+
+	@Override
+	public UserProducts addtoCartProduct(CartProductsDto p) {
+		UserProducts cartProduct;
+		try {
+			User u = getUserById(p.getUserid());
+			Cart c = genCartRepo.findByUser(u);
+			
+			 cartProduct  = new UserProducts();
+			
+			cartProduct.setCart(c);
+			
+			cartProduct.setProduct(genProductRepo.findById(p.getProductid()).get());
+			
+			cartProduct.setQuantity(p.getQuantity());
+			
+			cartProduct.setVisiblity("Pending");
+			
+		return	genUserproductsRepo.save(cartProduct);
+			
+			
+		}
+		catch(Exception e){
+			throw new UserException("Cart");
 		}
 		
 	}
