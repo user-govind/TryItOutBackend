@@ -18,12 +18,12 @@ public class ProductServiceImple implements ProductService {
 	@Autowired
 	private GenericProductReopository productRepo;
 
-	public boolean addProduct(Product p) {
+	public Product addProduct(Product p) {
 		
 		try {
-			System.out.println(p.getDescription().length());
-			productRepo.save(p);
-			return true;
+			//System.out.println(p.getDescription().length());
+			
+			return productRepo.save(p);
 		}
 		catch(Exception e) {
 			e.printStackTrace();

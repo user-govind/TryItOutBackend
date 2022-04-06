@@ -20,13 +20,13 @@ public class UserServiceImple implements UserService {
 	
 
 	@Override
-	public boolean addUser(User u) {
+	public User addUser(User u) {
 		
 		try
 		{
 			u.setPassword(((Integer)u.getPassword().hashCode()).toString());
-			genUserRepo.save(u);
-			return true;
+			
+			return genUserRepo.save(u);
 		}
 		catch (Exception e){
 			

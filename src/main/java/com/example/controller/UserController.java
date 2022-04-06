@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
@@ -20,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.dto.OtpVerify;
 import com.example.dto.ProfilePic;
 import com.example.dto.UserLoginDto;
+import com.example.entity.Cart;
 import com.example.entity.Role;
 import com.example.entity.User;
 import com.example.exception.UserException;
 import com.example.exception.UserRegistrationException;
+import com.example.service.CartService;
 import com.example.service.EmailService;
 import com.example.service.UserServiceImple;
 
@@ -38,6 +39,9 @@ public class UserController {
 	@Autowired
 	private EmailService emailservice;
 	
+	@Autowired
+	private CartService cartService;
+	
 	Map<String,Integer> userOtpSession = new HashMap<String, Integer>();
 	
 	@PostMapping("/register") 
@@ -47,7 +51,14 @@ public class UserController {
 		u.setRole(r);
 		
 		try {
-			userServ.addUser(u);
+			User newUser = userServ.addUser(u);
+			
+			Cart c = new Cart();
+			
+			c.setUser(newUser);
+			
+			cartService.addUserCart(c);
+			
 				
 		} catch (UserRegistrationException e) {
 		
@@ -62,9 +73,7 @@ public class UserController {
 	
 		UserLoginDto u = null;
 		
-		
 		try {
-			
 			u = userServ.authenticateUser(uld);
 			u.setStatus(true);
 			return u;
@@ -106,6 +115,7 @@ public class UserController {
 		 	
 		 	userOtpSession.put(email, otp);
 		 	System.out.println(userOtpSession.get(email));
+		 	System.out.println(otp);
 		 	
 		 	
 		}catch(Exception e) {
