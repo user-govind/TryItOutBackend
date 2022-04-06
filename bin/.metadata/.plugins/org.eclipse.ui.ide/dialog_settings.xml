@@ -58,6 +58,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\ASUS\Desktop\C-DAC KH\Coding"/>
 			<item value="C:\Users\ASUS\Desktop\C-DAC KH\Final project\Back-end\TryItOut_06.03.22\TryItOut"/>
 		</list>
 	</section>
