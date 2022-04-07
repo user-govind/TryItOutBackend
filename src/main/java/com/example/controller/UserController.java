@@ -22,6 +22,7 @@ import com.example.dto.CartProductsResponseDto;
 import com.example.dto.OtpVerify;
 import com.example.dto.ProfilePic;
 import com.example.dto.UserLoginDto;
+import com.example.dto.UserProductUpdateRequestDto;
 import com.example.entity.Cart;
 import com.example.entity.Role;
 import com.example.entity.User;
@@ -183,6 +184,15 @@ public class UserController {
 		}
 	}
 	
-	
+	@PostMapping("/plus-UserProduct") //extra-Ashish
+	public Boolean plusproduct(@RequestBody UserProductUpdateRequestDto productDto) {
+		
+		try {
+			return userServ.updateUserProductQuantityByadd1(productDto);
+		}
+		catch(UserException e) {
+			return false;
+		}
+	}
 	
 }

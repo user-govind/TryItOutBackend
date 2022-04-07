@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.dto.CartProductsRequestDto;
 import com.example.dto.CartProductsResponseDto;
 import com.example.dto.UserLoginDto;
+import com.example.dto.UserProductUpdateRequestDto;
 import com.example.entity.Cart;
 import com.example.entity.Product;
 import com.example.entity.User;
@@ -171,4 +172,18 @@ public class UserServiceImple implements UserService {
 		}
 		
 	}
+	public boolean updateUserProductQuantityByadd1(UserProductUpdateRequestDto updto) {
+		
+		try {
+			 genUserproductsRepo.updateUserProductQuantityByplus1(updto.getQuantity(), updto.getUserCartId());
+				return true;
+		}
+		catch(Exception e ) {
+			e.printStackTrace();
+			throw e;
+		}
+	
+	}
+	
+	
 }

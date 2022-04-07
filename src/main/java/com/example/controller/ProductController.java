@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.ProductAddDto;
+import com.example.dto.UserProductUpdateRequestDto;
 import com.example.entity.Product;
 import com.example.exception.UserException;
 import com.example.service.ProductServiceImple;
