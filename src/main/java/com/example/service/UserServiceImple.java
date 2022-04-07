@@ -1,5 +1,8 @@
 package com.example.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,6 +135,27 @@ public class UserServiceImple implements UserService {
 		catch(Exception e){
 			e.printStackTrace();
 			throw new UserException("Cart");
+		}
+		
+	}
+
+	@Override
+	public List<Product> getAllCartProducts(int cartId) {
+		
+		try {
+			List<Product> product = new ArrayList<Product>();
+			List<UserProducts> up = genUserproductsRepo.findAllProductsWhereVisiblityIsPendingAndCartIdIsPresent(genCartRepo.findById(cartId).get());
+			for (UserProducts x : up) {
+				
+				product.add(x.getProduct());
+			}
+			up.get(0).getProduct();
+			System.out.println(up);
+			return product;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 		}
 		
 	}

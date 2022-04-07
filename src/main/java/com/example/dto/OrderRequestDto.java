@@ -1,6 +1,6 @@
 package com.example.dto;
 
-public class PaymentDto {
+public class OrderRequestDto {
 
 	private int id;
 	private int amount;

@@ -5,6 +5,7 @@ package com.example.controller;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import com.example.dto.OtpVerify;
 import com.example.dto.ProfilePic;
 import com.example.dto.UserLoginDto;
 import com.example.entity.Cart;
+import com.example.entity.Product;
 import com.example.entity.Role;
 import com.example.entity.User;
 import com.example.exception.UserAlreadyPresent;
@@ -43,6 +45,8 @@ public class UserController {
 	
 	@Autowired
 	private CartService cartService;
+	
+	
 	
 	Map<String,Integer> userOtpSession = new HashMap<String, Integer>();
 	
@@ -163,5 +167,22 @@ public class UserController {
 		}
 		return true;
 	}
+	
+	
+	@PostMapping("/get-all-cartProducts/{cartId}")
+	public List<Product> getCartProducts(@PathVariable int cartId ) {
+		
+		try
+		{
+			
+			return userServ.getAllCartProducts(cartId);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw new UserException("product are not available in cart");
+		}
+	}
+	
+	
 	
 }
