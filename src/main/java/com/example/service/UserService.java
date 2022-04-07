@@ -2,7 +2,8 @@ package com.example.service;
 
 import java.util.List;
 
-import com.example.dto.CartProductsDto;
+import com.example.dto.CartProductsRequestDto;
+import com.example.dto.CartProductsResponseDto;
 import com.example.dto.UserLoginDto;
 import com.example.entity.Product;
 import com.example.entity.User;
@@ -16,7 +17,7 @@ public interface UserService {
 	
 	public User getUserById(int id);
 	
-	public UserProducts addtoCartProduct(CartProductsDto c);
+	public UserProducts addtoCartProduct(CartProductsRequestDto c);
 	
-	public List<Product> getAllCartProducts(int cartid);
+	public List<CartProductsResponseDto> getAllCartProducts(int cartid);
 }

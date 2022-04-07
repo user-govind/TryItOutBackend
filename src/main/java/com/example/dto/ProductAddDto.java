@@ -13,7 +13,7 @@ public class ProductAddDto {
 	
 	private int quantity;
 	
-	private double price;
+	private int price;
 
 
 	
@@ -51,11 +51,11 @@ public class ProductAddDto {
 		this.quantity = quantity;
 	}
 
-	public double getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 

@@ -8,7 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.dto.CartProductsDto;
+import com.example.dto.CartProductsRequestDto;
+import com.example.dto.CartProductsResponseDto;
 import com.example.dto.UserLoginDto;
 import com.example.entity.Cart;
 import com.example.entity.Product;
@@ -99,17 +100,18 @@ public class UserServiceImple implements UserService {
 	}
 
 	@Override
-	public UserProducts addtoCartProduct(CartProductsDto p) {
+	public UserProducts addtoCartProduct(CartProductsRequestDto p) {
 		UserProducts cartProduct;
 		try {
-			
-			
+			System.out.println(p.getColour()+"----------"+p.getSize());
 			User u = getUserById(p.getUserid());
 			Cart c = genCartRepo.findByUser(u);
 			
 			cartProduct  = new UserProducts();
 			
 			cartProduct.setCart(c);
+			cartProduct.setColour(p.getColour());
+			cartProduct.setSize(p.getSize());
 			Product product = genProductRepo.findById(p.getProductid()).get();
 			UserProducts up = genUserproductsRepo.findByProduct(product);
 			System.out.println(product);
@@ -140,16 +142,26 @@ public class UserServiceImple implements UserService {
 	}
 
 	@Override
-	public List<Product> getAllCartProducts(int cartId) {
+	public List<CartProductsResponseDto> getAllCartProducts(int cartId) {
 		
 		try {
-			List<Product> product = new ArrayList<Product>();
+			List<CartProductsResponseDto> product = new ArrayList<CartProductsResponseDto>();
 			List<UserProducts> up = genUserproductsRepo.findAllProductsWhereVisiblityIsPendingAndCartIdIsPresent(genCartRepo.findById(cartId).get());
 			for (UserProducts x : up) {
 				
-				product.add(x.getProduct());
+				CartProductsResponseDto cp = new CartProductsResponseDto();
+				
+				cp.setBrand(x.getProduct().getBrand());
+				cp.setColour(x.getColour());
+				cp.setName(x.getProduct().getName());
+				cp.setPrice(x.getProduct().getPrice());
+				cp.setProductId(x.getProduct().getProductId());
+				cp.setProductImg(x.getProduct().getProductImg());
+				cp.setQuantity(x.getQuantity());
+				cp.setSize(x.getSize());
+				product.add(cp);
 			}
-			up.get(0).getProduct();
+			
 			System.out.println(up);
 			return product;
 		}

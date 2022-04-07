@@ -1,10 +1,26 @@
 package com.example.dto;
 
-public class CartProductsDto {
+public class CartProductsRequestDto {
 	private int productid;
 	private int quantity;
 	private int userid;
 	
+	private String colour;
+	
+	private String Size;
+	
+	public String getColour() {
+		return colour;
+	}
+	public void setColour(String colour) {
+		this.colour = colour;
+	}
+	public String getSize() {
+		return Size;
+	}
+	public void setSize(String size) {
+		Size = size;
+	}
 	public int getProductid() {
 		return productid;
 	}

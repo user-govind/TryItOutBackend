@@ -31,9 +31,9 @@ public class Product {
 	private String Name;
 	@Lob
 	private String Description;
-	private String size ;
+
 	private int quantity;
-	private double price;
+	private int price;
 	private String productImg;
 	
 
@@ -67,13 +67,7 @@ public class Product {
 		this.brand = brand;
 	}
 
-	public void setSize(String size) {
-		this.size = size;
-	}
 
-	public String getSize() {
-		return size;
-	}
 
 	public String getColour() {
 		return colour;
@@ -140,11 +134,11 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-	public double getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 

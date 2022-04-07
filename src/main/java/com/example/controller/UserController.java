@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.dto.CartProductsDto;
+import com.example.dto.CartProductsRequestDto;
+import com.example.dto.CartProductsResponseDto;
 import com.example.dto.OtpVerify;
 import com.example.dto.ProfilePic;
 import com.example.dto.UserLoginDto;
 import com.example.entity.Cart;
-import com.example.entity.Product;
 import com.example.entity.Role;
 import com.example.entity.User;
 import com.example.exception.UserAlreadyPresent;
@@ -152,7 +152,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/add-product-cart")
-	public boolean addtoCart(@RequestBody CartProductsDto cartProducts ) {
+	public boolean addtoCart(@RequestBody CartProductsRequestDto cartProducts ) {
 		
 		try {
 			userServ.addtoCartProduct(cartProducts);
@@ -170,7 +170,7 @@ public class UserController {
 	
 	
 	@PostMapping("/get-all-cartProducts/{cartId}")
-	public List<Product> getCartProducts(@PathVariable int cartId ) {
+	public List<CartProductsResponseDto> getCartProducts(@PathVariable int cartId ) {
 		
 		try
 		{
