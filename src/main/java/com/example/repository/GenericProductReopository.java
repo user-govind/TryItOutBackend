@@ -14,5 +14,4 @@ public interface GenericProductReopository extends JpaRepository<Product,Integer
 	
 	@Query(value = "SELECT * FROM product_table WHERE STATUS != 'DELETED'",nativeQuery = true)
 	public List<Product> findAllWhereStatusIsNotDeleted();
-	
 }
