@@ -10,4 +10,6 @@ import com.example.entity.User;
 public interface GenericCartRepo extends JpaRepository<Cart,Integer> {
 
 	public Cart findByUser(User u);
+	
+	
 }

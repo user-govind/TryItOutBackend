@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.entity.Product;
 import com.example.exception.UserException;
 import com.example.repository.GenericProductReopository;
+import com.example.repository.GenericUserProductRepo;
 
 @Service
 @Transactional
@@ -61,4 +62,7 @@ public class ProductServiceImple implements ProductService {
 		}
 		
 	}
+
+
+	
 }

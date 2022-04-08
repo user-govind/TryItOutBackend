@@ -22,6 +22,7 @@ public interface GenericUserProductRepo extends JpaRepository<UserProducts,Integ
 	@Query(value = "select * from user_products where visiblity='pending' and cart_id = :c",nativeQuery = true)
 	public List<UserProducts> findAllProductsWhereVisiblityIsPendingAndCartIdIsPresent(@Param("c") Cart c);
 	
+<<<<<<< HEAD
 	@Query(value = "select id as Id , price as Price, payment_table.payment_date as PaymentDate, "
 			+ "payment_table.amount as Amount, payment_table.payment_id as PaymentId, payment_table.provider as "
 			+ "Provider,payment_table.status as Status , order_item.order_id as OrderId, user_table.user_id as UserId, "
@@ -42,3 +43,11 @@ public interface GenericUserProductRepo extends JpaRepository<UserProducts,Integ
 }
 //
 //select id as Id, price as Price from user_products join cart_table join user_table join product_table where user_products.cart_id = cart_table.cart_id and product_table.product_id = user_products.product_id and cart_table.user_user_id = user_table.user_id and user_products.cart_id = :cid and user_products.visiblity = 'Bought'" ,nativeQuery = true)
+=======
+	@Modifying
+	@Query(value="update user_products set quantity = :q + 1 where cart_id = :cid",nativeQuery=true)
+	//public UserProducts updateUserProductQuantityByplus1(@Param("q") int quantity,@Param("cid") int cartId);
+	public void updateUserProductQuantityByplus1(@Param("q") int quantity,@Param("cid") int cartId);
+}
+	
+>>>>>>> 369a6020d857435cfc34ed77c6cbe2e263caa262

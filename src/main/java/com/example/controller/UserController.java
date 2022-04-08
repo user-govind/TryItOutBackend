@@ -23,6 +23,7 @@ import com.example.dto.OtpVerify;
 import com.example.dto.ProfilePic;
 import com.example.dto.UserAddressRequestDto;
 import com.example.dto.UserLoginDto;
+import com.example.dto.UserProductUpdateRequestDto;
 import com.example.entity.Cart;
 import com.example.entity.Role;
 import com.example.entity.User;
@@ -189,6 +190,7 @@ public class UserController {
 		}
 	}
 	
+<<<<<<< HEAD
 	@GetMapping("/get-userCart/{uid}")
 	public int getUserCartId(@PathVariable int uid) {
 		
@@ -224,5 +226,17 @@ public class UserController {
 		}
 	}
 	
+=======
+	@PostMapping("/plus-UserProduct") //extra-Ashish
+	public Boolean plusproduct(@RequestBody UserProductUpdateRequestDto productDto) {
+		
+		try {
+			return userServ.updateUserProductQuantityByadd1(productDto);
+		}
+		catch(UserException e) {
+			return false;
+		}
+	}
+>>>>>>> 369a6020d857435cfc34ed77c6cbe2e263caa262
 	
 }
