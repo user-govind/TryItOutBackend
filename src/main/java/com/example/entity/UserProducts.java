@@ -2,6 +2,8 @@ package com.example.entity;
 
 import java.sql.Timestamp;
 
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +14,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
+import javax.persistence.Column;
 @Entity
 @Table(name = "User_Products")
 public class UserProducts {
@@ -22,12 +24,15 @@ public class UserProducts {
 	private int id;
 	
 	@ManyToOne
+	@JoinColumn(name="cartId", nullable=false)
+	private Cart cart;
+	@ManyToOne
 	@JoinColumn(name="productId", nullable=false)
 	private Product product;
 	
-	@ManyToOne
-	@JoinColumn(name="cartId", nullable=false)
-	private Cart cart;
+	private String size;
+	
+	private String colour;
 	
 	private int quantity;
 
@@ -39,6 +44,24 @@ public class UserProducts {
 	@UpdateTimestamp
 	private Timestamp updationTimestamp;
 	
+	
+	
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getColour() {
+		return colour;
+	}
+
+	public void setColour(String colour) {
+		this.colour = colour;
+	}
+
 	public Timestamp getCreationTimestamp() {
 		return creationTimestamp;
 	}

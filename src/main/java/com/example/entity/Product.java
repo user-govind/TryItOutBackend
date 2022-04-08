@@ -3,7 +3,6 @@ package com.example.entity;
 import java.sql.Timestamp;
 import java.util.List;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +15,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
+
+
 
 @Entity
 @Table(name = "product_table")
@@ -27,11 +31,15 @@ public class Product {
 	private String Name;
 	@Lob
 	private String Description;
-	private String size ;
+
 	private int quantity;
-	private double price;
+	private int price;
 	private String productImg;
 	
+
+	@OneToMany(mappedBy="product")
+	@JsonIgnore
+	private List<UserProducts> userProdcuts;
 	
 	@CreationTimestamp
 	private Timestamp creationTimestamp;
@@ -49,6 +57,8 @@ public class Product {
 	
 	private String brand;
 	
+	
+	
 	public String getBrand() {
 		return brand;
 	}
@@ -57,13 +67,7 @@ public class Product {
 		this.brand = brand;
 	}
 
-	public void setSize(String size) {
-		this.size = size;
-	}
 
-	public String getSize() {
-		return size;
-	}
 
 	public String getColour() {
 		return colour;
@@ -96,10 +100,7 @@ public class Product {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	@OneToMany(mappedBy="product")
-	@JsonIgnore
-	private List<UserProducts> UserProdcuts;
+	
 
 	public int getProductId() {
 		return productId;
@@ -133,11 +134,11 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-	public double getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
@@ -150,11 +151,11 @@ public class Product {
 	}
 
 	public List<UserProducts> getUserProdcuts() {
-		return UserProdcuts;
+		return userProdcuts;
 	}
 
 	public void setUserProdcuts(List<UserProducts> userProdcuts) {
-		UserProdcuts = userProdcuts;
+		userProdcuts = userProdcuts;
 	}
 
 	public Timestamp getCreationTimestamp() {

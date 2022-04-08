@@ -61,7 +61,6 @@ public class Cart {
 	@JsonIgnore
 	private List<OrderItem> OrderItems;
 	
-	
 
 	public int getCartId() {
 		return cartId;

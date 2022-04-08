@@ -2,10 +2,9 @@ package com.example.entity;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,23 +14,22 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 
 @Entity
 @Table(name = "payment_table")
 public class PaymentDetails {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)	
-	private int paymentId;
+	private String paymentId;
 	
 	@OneToOne
 	@JoinColumn(name="orderId", nullable=false)
 	private OrderItem order;
-	private double amount;
+	private int amount;
 	private String provider;
 	private String status;
+	
+	private String signature;
 	
 	@CreationTimestamp
 	private Timestamp creationTimestamp;
@@ -39,6 +37,16 @@ public class PaymentDetails {
 	@UpdateTimestamp
 	private Timestamp updationTimestamp;
 	
+	
+	
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
+	}
+
 	public Timestamp getCreationTimestamp() {
 		return creationTimestamp;
 	}
@@ -60,13 +68,13 @@ public class PaymentDetails {
 	private User user;
 	
 //	@JsonFormat(pattern = "dd/mm/yyyy HH:MM:SS")
-	private LocalDate PaymentDate;
+	private LocalDateTime PaymentDate;
 
-	public int getPaymentId() {
+	public String getPaymentId() {
 		return paymentId;
 	}
 
-	public void setPaymentId(int paymentId) {
+	public void setPaymentId(String paymentId) {
 		this.paymentId = paymentId;
 	}
 
@@ -78,11 +86,11 @@ public class PaymentDetails {
 		this.order = order;
 	}
 
-	public double getAmount() {
+	public int getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 
@@ -110,11 +118,11 @@ public class PaymentDetails {
 		this.user = user;
 	}
 
-	public LocalDate getPaymentDate() {
+	public LocalDateTime getPaymentDate() {
 		return PaymentDate;
 	}
 
-	public void setPaymentDate(LocalDate paymentDate) {
+	public void setPaymentDate(LocalDateTime paymentDate) {
 		PaymentDate = paymentDate;
 	}
 	

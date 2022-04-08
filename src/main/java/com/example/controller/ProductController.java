@@ -1,8 +1,10 @@
 package com.example.controller;
 
+import java.io.FileOutputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dto.ProductAddDto;
+import com.example.dto.UserProductUpdateRequestDto;
 import com.example.entity.Product;
 import com.example.exception.UserException;
 import com.example.service.ProductServiceImple;
@@ -21,16 +25,51 @@ public class ProductController {
 	@Autowired
 	private ProductServiceImple productService;
 	
-	@PostMapping("/add-product")
-	public boolean addproduct(@RequestBody Product p) {
+	@PostMapping("/add")
+	public Product addproduct(@RequestBody Product p) {
 		p.setStatus("Added");
 		try {
-			productService.addProduct(p);
-			return true;
+			
+			return productService.addProduct(p);
 		}
 		catch(UserException e) {
-			return false;
+			throw e;		
+			
 		}	
+	}
+	
+
+	@PostMapping("/add-product")
+	public boolean addProductInfo( ProductAddDto product) {
+		
+		Product p = new Product();
+		try {
+		p.setName(product.getName());
+		p.setBrand(product.getBrand());
+		p.setCategory(product.getCategory());
+		p.setColour(product.getColour());
+		p.setGender(product.getGender());
+		p.setPrice(product.getPrice());
+		p.setDescription(product.getDescription());
+		p.setQuantity(product.getQuantity());
+
+		p = productService.addProduct(p);
+		
+		
+		
+		String fileName =  p.getProductId() + "-" + product.getProductImg().getOriginalFilename();
+		
+		FileCopyUtils.copy(product.getProductImg().getInputStream(), new FileOutputStream("C:/Users/ASUS/Desktop/C-DAC KH/Final project/Front-end/try-it-out.com/src/Product-Images/" + fileName));
+
+		p.setProductImg(fileName);
+		
+		p = productService.addProduct(p);
+		
+		}
+		catch(Exception e) {
+			throw new UserException("Sorry there is error in adding products");
+		}
+		return true;
 	}
 	
 	@PostMapping("/all-products")

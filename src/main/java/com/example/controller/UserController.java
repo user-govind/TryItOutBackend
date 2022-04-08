@@ -5,25 +5,34 @@ package com.example.controller;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dto.CartProductsRequestDto;
+import com.example.dto.CartProductsResponseDto;
 import com.example.dto.OtpVerify;
 import com.example.dto.ProfilePic;
 import com.example.dto.UserLoginDto;
+import com.example.dto.UserProductDeleteRequestDto;
+import com.example.dto.UserProductUpdateRequestDto;
+import com.example.entity.Cart;
 import com.example.entity.Role;
 import com.example.entity.User;
+import com.example.exception.UserAlreadyPresent;
 import com.example.exception.UserException;
 import com.example.exception.UserRegistrationException;
+import com.example.service.CartService;
 import com.example.service.EmailService;
 import com.example.service.UserServiceImple;
 
@@ -38,6 +47,11 @@ public class UserController {
 	@Autowired
 	private EmailService emailservice;
 	
+	@Autowired
+	private CartService cartService;
+	
+	
+	
 	Map<String,Integer> userOtpSession = new HashMap<String, Integer>();
 	
 	@PostMapping("/register") 
@@ -47,7 +61,14 @@ public class UserController {
 		u.setRole(r);
 		
 		try {
-			userServ.addUser(u);
+			User newUser = userServ.addUser(u);
+			
+			Cart c = new Cart();
+			
+			c.setUser(newUser);
+			
+			cartService.addUserCart(c);
+			
 				
 		} catch (UserRegistrationException e) {
 		
@@ -62,9 +83,7 @@ public class UserController {
 	
 		UserLoginDto u = null;
 		
-		
 		try {
-			
 			u = userServ.authenticateUser(uld);
 			u.setStatus(true);
 			return u;
@@ -106,6 +125,7 @@ public class UserController {
 		 	
 		 	userOtpSession.put(email, otp);
 		 	System.out.println(userOtpSession.get(email));
+		 	System.out.println(otp);
 		 	
 		 	
 		}catch(Exception e) {
@@ -135,5 +155,78 @@ public class UserController {
 		return false;
 	}
 	
-
+	@PostMapping("/add-product-cart")
+	public boolean addtoCart(@RequestBody CartProductsRequestDto cartProducts ) {
+		
+		try {
+			userServ.addtoCartProduct(cartProducts);
+		}
+		catch(UserAlreadyPresent e) {
+			e.printStackTrace();
+			throw new UserAlreadyPresent("User is already present");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw new UserException("cart not available");
+		}
+		return true;
+	}
+	
+	
+	@PostMapping("/get-all-cartProducts/{cartId}")
+	public List<CartProductsResponseDto> getCartProducts(@PathVariable int cartId ) {
+		
+		try
+		{
+			
+			return userServ.getAllCartProducts(cartId);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw new UserException("product are not available in cart");
+		}
+	}
+	
+	@PutMapping("/plus-UserProduct") 
+	public Boolean plusproduct(@RequestBody UserProductUpdateRequestDto productDto) {
+		
+		try {
+			return userServ.updateUserProductQuantityByadd1(productDto);
+		}
+		catch(UserException e) {
+			return false;
+		}
+	}
+	
+	@PutMapping("/minus-UserProduct")
+	public Boolean minusproduct(@RequestBody UserProductUpdateRequestDto productDto) {
+		
+		try {
+			return userServ.updateUserProductQuantityBySub1(productDto);
+		}
+		catch(UserException e) {
+			return false;
+		}
+	}
+	@PutMapping("/delete-UserProduct")
+	public Boolean deleteuserProduct(@RequestBody UserProductDeleteRequestDto productDto) {
+		
+		try {
+			return userServ.deleteProductFromTheCart(productDto);
+		}
+		catch(UserException e) {
+			return false;
+		}
+	}
+	@PutMapping("/clear-cart")
+	public Boolean clearUserCart(@RequestBody UserProductDeleteRequestDto productDto) {
+		
+		try {
+			return userServ.clearCart(productDto);
+		}
+		catch(UserException e) {
+			return false;
+		}
+	}
+	
 }
