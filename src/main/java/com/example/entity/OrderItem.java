@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "order_item")
 public class OrderItem {
@@ -23,6 +25,7 @@ public class OrderItem {
 	
 	@ManyToOne
 	@JoinColumn(name="cartId", nullable=false)
+	@JsonIgnore
 	private Cart cart;
 	
 	private String status;

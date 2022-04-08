@@ -58,7 +58,6 @@ public class Cart {
 	private List<UserProducts> userProducts;
 	
 	@OneToMany(mappedBy = "cart")
-	@JsonIgnore
 	private List<OrderItem> OrderItems;
 	
 
