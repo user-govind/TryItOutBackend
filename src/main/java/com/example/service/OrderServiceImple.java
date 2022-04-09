@@ -15,6 +15,7 @@ import com.example.entity.PaymentDetails;
 import com.example.repository.GenericCartRepo;
 import com.example.repository.GenericOrderRepo;
 import com.example.repository.GenericPaymentRepo;
+import com.example.repository.GenericUserRepository;
 import com.example.repository.GenericUserProductRepo;
 import com.example.repository.GenericUserRepository;
 import com.example.utility.UserDefinedUserProductsDto;
@@ -99,10 +100,7 @@ public class OrderServiceImple implements OrderService {
 	public boolean orderPayment(PaymentRequestDto paymentdto) {
 		try {
 			
-		
-			
 			PaymentDetails payment = new PaymentDetails();
-			
 			
 			payment.setAmount(paymentdto.getAmount());
 			
@@ -146,5 +144,4 @@ public class OrderServiceImple implements OrderService {
 		}
 		
 	}
-
 }

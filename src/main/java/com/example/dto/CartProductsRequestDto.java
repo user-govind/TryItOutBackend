@@ -4,6 +4,7 @@ public class CartProductsRequestDto {
 	private int productid;
 	private int quantity;
 	private int userid;
+
 	private String status;
 	
 	public String getStatus() {
@@ -12,6 +13,7 @@ public class CartProductsRequestDto {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
 	private String colour;
 	
 	private String Size;

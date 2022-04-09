@@ -11,18 +11,42 @@ import org.springframework.stereotype.Repository;
 import com.example.entity.Cart;
 import com.example.entity.Product;
 import com.example.entity.UserProducts;
+
 import com.example.utility.UserDefinedUserProductsDto;
+
 
 @Repository
 public interface GenericUserProductRepo extends JpaRepository<UserProducts,Integer> {
 	
+
+	public UserProducts findByProduct(Product p);
+
 	public UserProducts findByProductAndCartAndVisiblity(Product p,Cart c,String v);
+
 	
 
 	@Query(value = "select * from user_products where visiblity='pending' and cart_id = :c",nativeQuery = true)
 	public List<UserProducts> findAllProductsWhereVisiblityIsPendingAndCartIdIsPresent(@Param("c") Cart c);
 	
-<<<<<<< HEAD
+	@Modifying
+	@Query(value="update user_products set quantity = :q + 1 where cart_id = :cid and product_id= :pid",nativeQuery=true)
+	public void updateUserProductQuantityByplus1(@Param("q") int quantity,@Param("cid") int cartId,  @Param("pid") int productId);
+	
+	@Modifying
+	@Query(value="update user_products set quantity = :q - 1 where cart_id = :cid and product_id= :pid",nativeQuery=true)
+	public void updateUserProductQuantityByminus1(@Param("q") int quantity,@Param("cid") int cartId, @Param("pid") int productId);
+	
+	
+	@Modifying
+	@Query(value="update user_products set visiblity= 'deleted' where cart_id= :cid and product_id= :pid", nativeQuery=true)
+	public void deleteProductFromCart(@Param("pid") int productId, @Param("cid") int cartId); 
+	
+	@Modifying
+	@Query(value="update user_products set visiblity= 'deleted' where cart_id= :cid", nativeQuery=true)
+	public void deleteCart(@Param("cid") int cartId); 
+
+	
+
 	@Query(value = "select id as Id , price as Price, payment_table.payment_date as PaymentDate, "
 			+ "payment_table.amount as Amount, payment_table.payment_id as PaymentId, payment_table.provider as "
 			+ "Provider,payment_table.status as Status , order_item.order_id as OrderId, user_table.user_id as UserId, "
@@ -38,16 +62,16 @@ public interface GenericUserProductRepo extends JpaRepository<UserProducts,Integ
 	@Query(value = "update user_products set visiblity = 'Bought' where cart_id = :cid", nativeQuery = true)
 	public void updateCartProductsVisiblity(@Param("cid") Cart c);
 	
-	
-
-}
-//
-//select id as Id, price as Price from user_products join cart_table join user_table join product_table where user_products.cart_id = cart_table.cart_id and product_table.product_id = user_products.product_id and cart_table.user_user_id = user_table.user_id and user_products.cart_id = :cid and user_products.visiblity = 'Bought'" ,nativeQuery = true)
-=======
 	@Modifying
 	@Query(value="update user_products set quantity = :q + 1 where cart_id = :cid",nativeQuery=true)
 	//public UserProducts updateUserProductQuantityByplus1(@Param("q") int quantity,@Param("cid") int cartId);
 	public void updateUserProductQuantityByplus1(@Param("q") int quantity,@Param("cid") int cartId);
+
 }
+
+//select id as Id, price as Price from user_products join cart_table join user_table join product_table where user_products.cart_id = cart_table.cart_id and product_table.product_id = user_products.product_id and cart_table.user_user_id = user_table.user_id and user_products.cart_id = :cid and user_products.visiblity = 'Bought'" ,nativeQuery = true)
+
 	
->>>>>>> 369a6020d857435cfc34ed77c6cbe2e263caa262
+
+	
+

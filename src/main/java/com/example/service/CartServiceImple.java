@@ -8,6 +8,7 @@ import com.example.exception.UserException;
 import com.example.repository.GenericCartRepo;
 import com.example.repository.GenericUserRepository;
 
+
 @Service
 public class CartServiceImple implements CartService {
 
@@ -41,6 +42,3 @@ public class CartServiceImple implements CartService {
 		}
 	}
 	
-	
-
-}
