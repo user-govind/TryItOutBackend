@@ -10,12 +10,14 @@ import org.springframework.stereotype.Service;
 
 import com.example.dto.CartProductsRequestDto;
 import com.example.dto.CartProductsResponseDto;
-import com.example.dto.UserLoginDto;
 import com.example.dto.UserProductDeleteRequestDto;
+import com.example.dto.UserAddressRequestDto;
+import com.example.dto.UserLoginDto;
 import com.example.dto.UserProductUpdateRequestDto;
 import com.example.entity.Cart;
 import com.example.entity.Product;
 import com.example.entity.User;
+import com.example.entity.UserAddress;
 import com.example.entity.UserProducts;
 import com.example.exception.UserAlreadyPresent;
 import com.example.exception.UserException;
@@ -24,6 +26,8 @@ import com.example.repository.GenericCartRepo;
 import com.example.repository.GenericProductReopository;
 import com.example.repository.GenericUserProductRepo;
 import com.example.repository.GenericUserRepository;
+import com.example.repository.GenricAddressRepo;
+
 
 
 @Service
@@ -42,6 +46,8 @@ public class UserServiceImple implements UserService {
 	@Autowired
 	private GenericProductReopository genProductRepo;
 	
+	@Autowired
+	private GenricAddressRepo genAddressRepo;
 
 	@Override
 	public User addUser(User u) {
@@ -115,18 +121,16 @@ public class UserServiceImple implements UserService {
 			cartProduct.setColour(p.getColour());
 			cartProduct.setSize(p.getSize());
 			Product product = genProductRepo.findById(p.getProductid()).get();
-			UserProducts up = genUserproductsRepo.findByProduct(product);
-			System.out.println(product);
-			System.out.println(up);
+      String visiblity = "Pending";
+			UserProducts up = genUserproductsRepo.findByProductAndCartAndVisiblity(product,c,visiblity);
 			if(up==null)
 				cartProduct.setProduct(product);
 			else {
 				throw new UserAlreadyPresent();
 			}
-	
 			cartProduct.setQuantity(p.getQuantity());
-			
-			cartProduct.setVisiblity("Pending");
+			cartProduct.setVisiblity(p.getStatus());
+
 			
 		return	genUserproductsRepo.save(cartProduct);
 			
@@ -191,6 +195,58 @@ public boolean updateUserProductQuantityBySub1(UserProductUpdateRequestDto updto
 		
 		try {
 			 genUserproductsRepo.updateUserProductQuantityByminus1(updto.getQuantity(), updto.getUserCartId(), updto.getProductId() );
+			return true;
+			
+		}catch(Exception e) {
+			throw e;
+		}
+}
+	public boolean updateUserCartProducts(int cid) {
+		
+		try {
+			genUserproductsRepo.updateCartProductsVisiblity(genCartRepo.findById(cid).get());
+			return true;
+			
+		}catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	public boolean addAddress(UserAddressRequestDto userAddress ) {
+		
+		try {
+			UserAddress uAdd = new UserAddress();
+			
+			UserAddress ua = genAddressRepo.findByUserAndAddressLine1AndAddressLine2AndCity(genUserRepo.findById(userAddress.getUid()).get(),
+					userAddress.getAddress1(), userAddress.getAddress2(), userAddress.getCity());
+			
+			if(ua!=null) {
+				return false;
+			}
+			
+			uAdd.setAddLine1(userAddress.getAddress1());
+			uAdd.setAddLine2(userAddress.getAddress2());
+			uAdd.setCity(userAddress.getCity());
+			uAdd.setCountry(userAddress.getCountry());
+			uAdd.setFname(userAddress.getFirstName());
+			uAdd.setLname(userAddress.getLastName());
+			uAdd.setPostalCode(userAddress.getZip());
+			uAdd.setState(userAddress.getState());
+			uAdd.setUser(genUserRepo.findById(userAddress.getUid()).get());
+			
+			genAddressRepo.save(uAdd);
+			
+			return true;
+			
+		}catch(Exception e)
+		{
+			throw e;
+		}
+  }
+	public boolean updateUserProductQuantityByadd1(UserProductUpdateRequestDto updto) {
+		
+		try {
+			 genUserproductsRepo.updateUserProductQuantityByplus1(updto.getQuantity(), updto.getUserCartId());
 				return true;
 		}
 		catch(Exception e ) {
@@ -224,6 +280,4 @@ public Boolean clearCart(UserProductDeleteRequestDto productDto) {
 		throw e;
 	}
 }
-
-
 }

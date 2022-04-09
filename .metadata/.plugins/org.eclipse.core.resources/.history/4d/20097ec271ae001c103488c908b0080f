@@ -1,8 +1,0 @@
-package com.cdac;
-
-public class StringPalindrom {
-	
-	public static void main(String args[]) {
-		System.out.print("nahi nahi nahi");
-	}
-}

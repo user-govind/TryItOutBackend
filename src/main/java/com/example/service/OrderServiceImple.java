@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ import com.example.repository.GenericCartRepo;
 import com.example.repository.GenericOrderRepo;
 import com.example.repository.GenericPaymentRepo;
 import com.example.repository.GenericUserRepository;
+import com.example.repository.GenericUserProductRepo;
+import com.example.repository.GenericUserRepository;
+import com.example.utility.UserDefinedUserProductsDto;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 
@@ -33,6 +37,10 @@ public class OrderServiceImple implements OrderService {
 
 	@Autowired
 	private GenericUserRepository genUserRepo;
+	
+	@Autowired
+	private GenericUserProductRepo genUserPorductRepo;
+	
 	
 	@Override
 	public OrderResponseDto createOrder(OrderRequestDto order) {
@@ -60,6 +68,8 @@ public class OrderServiceImple implements OrderService {
 			userOrder.setAmount(razorOrder.get("amount"));
 			
 			userOrder.setAttempts(razorOrder.get("attempts"));
+			
+			System.out.println(order.getId());
 			
 			userOrder.setCart(genCartRepo.findById(order.getId()).get());
 			
@@ -90,10 +100,7 @@ public class OrderServiceImple implements OrderService {
 	public boolean orderPayment(PaymentRequestDto paymentdto) {
 		try {
 			
-		
-			
 			PaymentDetails payment = new PaymentDetails();
-			
 			
 			payment.setAmount(paymentdto.getAmount());
 			
@@ -121,5 +128,20 @@ public class OrderServiceImple implements OrderService {
 		}
 		
 	}
-
+	
+	public List<UserDefinedUserProductsDto> userOrdersInfo (int uid ){
+		
+		try {
+			System.out.println(uid);
+			
+			return genUserPorductRepo.getAllOrderDetails(uid);
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
 }

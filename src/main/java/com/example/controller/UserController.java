@@ -23,8 +23,11 @@ import com.example.dto.CartProductsRequestDto;
 import com.example.dto.CartProductsResponseDto;
 import com.example.dto.OtpVerify;
 import com.example.dto.ProfilePic;
+import com.example.dto.UserAddressRequestDto;
 import com.example.dto.UserLoginDto;
+
 import com.example.dto.UserProductDeleteRequestDto;
+
 import com.example.dto.UserProductUpdateRequestDto;
 import com.example.entity.Cart;
 import com.example.entity.Role;
@@ -50,6 +53,7 @@ public class UserController {
 	@Autowired
 	private CartService cartService;
 	
+
 	
 	
 	Map<String,Integer> userOtpSession = new HashMap<String, Integer>();
@@ -61,6 +65,9 @@ public class UserController {
 		u.setRole(r);
 		
 		try {
+	
+			u.setStatus("Active");
+
 			User newUser = userServ.addUser(u);
 			
 			Cart c = new Cart();
@@ -186,7 +193,7 @@ public class UserController {
 			throw new UserException("product are not available in cart");
 		}
 	}
-	
+
 	@PutMapping("/plus-UserProduct") 
 	public Boolean plusproduct(@RequestBody UserProductUpdateRequestDto productDto) {
 		
@@ -218,15 +225,48 @@ public class UserController {
 			return false;
 		}
 	}
+  @GetMapping("/get-userCart/{uid}")
+	public int getUserCartId(@PathVariable int uid) {
+		
+		try {
+			return cartService.getCartId(uid);
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+  	@GetMapping("/update-User-Cart-checkout/{cid}")
+	public boolean updateCartAfterCheckout(@PathVariable int cid) {
+		
+		try {
+			userServ.updateUserCartProducts(cid);
+			return true;
+		}catch(Exception e) {
+			throw e;
+		}
+	}	
+  
+  @PostMapping("/add-User-Address")
+	public boolean addUserAddress(@RequestBody UserAddressRequestDto userAdd) {
+		
+		try {
+			return userServ.addAddress(userAdd);
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+  
+  
 	@PutMapping("/clear-cart")
 	public Boolean clearUserCart(@RequestBody UserProductDeleteRequestDto productDto) {
 		
 		try {
 			return userServ.clearCart(productDto);
+
+    }	catch(Exception e) {
+			throw e;
 		}
-		catch(UserException e) {
-			return false;
-		}
-	}
-	
+  }
+    
 }

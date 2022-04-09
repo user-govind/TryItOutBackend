@@ -3,6 +3,7 @@ package com.example.dto;
 public class UserProductUpdateRequestDto {
 	private int userCartId;
 	private int quantity;
+
 	private int productId;
 	public int getProductId() {
 		return productId;
@@ -10,6 +11,7 @@ public class UserProductUpdateRequestDto {
 	public void setProductId(int productId) {
 		this.productId = productId;
 	}
+
 	public int getUserCartId() {
 		return userCartId;
 	}
