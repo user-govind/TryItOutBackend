@@ -190,7 +190,7 @@ public class UserController {
 		}
 	}
 	
-<<<<<<< HEAD
+
 	@GetMapping("/get-userCart/{uid}")
 	public int getUserCartId(@PathVariable int uid) {
 		
@@ -226,8 +226,7 @@ public class UserController {
 		}
 	}
 	
-=======
-	@PostMapping("/plus-UserProduct") //extra-Ashish
+	@PostMapping("/plus-UserProduct")
 	public Boolean plusproduct(@RequestBody UserProductUpdateRequestDto productDto) {
 		
 		try {
@@ -237,6 +236,5 @@ public class UserController {
 			return false;
 		}
 	}
->>>>>>> 369a6020d857435cfc34ed77c6cbe2e263caa262
-	
+
 }

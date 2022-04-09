@@ -109,7 +109,6 @@ public class UserServiceImple implements UserService {
 	public UserProducts addtoCartProduct(CartProductsRequestDto p) {
 		UserProducts cartProduct;
 		try {
-			System.out.println(p.getColour()+"----------"+p.getSize());
 			User u = getUserById(p.getUserid());
 			Cart c = genCartRepo.findByUser(u);
 			
@@ -121,8 +120,7 @@ public class UserServiceImple implements UserService {
 			Product product = genProductRepo.findById(p.getProductid()).get();
 			String visiblity = "Pending";
 			UserProducts up = genUserproductsRepo.findByProductAndCartAndVisiblity(product,c,visiblity);
-			System.out.println(product);
-			System.out.println(up);
+			
 			if(up==null)
 				cartProduct.setProduct(product);
 			else {
@@ -180,7 +178,6 @@ public class UserServiceImple implements UserService {
 		}
 		
 	}
-<<<<<<< HEAD
 	
 	public boolean updateUserCartProducts(int cid) {
 		
@@ -198,7 +195,7 @@ public class UserServiceImple implements UserService {
 		try {
 			UserAddress uAdd = new UserAddress();
 			
-			UserAddress ua = genAddressRepo.findByUserAndAddressLine1AndAddressLine2AndCity(genUserRepo.findById(userAddress.getUid()).get(),
+			UserAddress ua = genAddressRepo.findByUserAndAddLine1AndAddLine2AndCity(genUserRepo.findById(userAddress.getUid()).get(),
 					userAddress.getAddress1(), userAddress.getAddress2(), userAddress.getCity());
 			
 			if(ua!=null) {
@@ -223,7 +220,8 @@ public class UserServiceImple implements UserService {
 		{
 			throw e;
 		}
-=======
+	}
+
 	public boolean updateUserProductQuantityByadd1(UserProductUpdateRequestDto updto) {
 		
 		try {
@@ -235,7 +233,6 @@ public class UserServiceImple implements UserService {
 			throw e;
 		}
 	
->>>>>>> 369a6020d857435cfc34ed77c6cbe2e263caa262
 	}
 	
 	
