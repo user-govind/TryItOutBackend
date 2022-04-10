@@ -22,8 +22,7 @@ public interface GenericUserProductRepo extends JpaRepository<UserProducts,Integ
 	public List<UserProducts> findAllProductsWhereVisiblityIsPendingAndCartIdIsPresent(@Param("c") Cart c);
 	
 	@Modifying
-	@Query(value="update user_products set quantity = :q + 1 where cart_id = :cid",nativeQuery=true)
-	//public UserProducts updateUserProductQuantityByplus1(@Param("q") int quantity,@Param("cid") int cartId);
+	@Query(value="update user_products set quantity = :q + 1 where cart_id = :cid",nativeQuery=true)//native query
 	public void updateUserProductQuantityByplus1(@Param("q") int quantity,@Param("cid") int cartId);
 }
 	

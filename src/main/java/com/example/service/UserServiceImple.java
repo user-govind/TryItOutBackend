@@ -172,6 +172,8 @@ public class UserServiceImple implements UserService {
 		}
 		
 	}
+	
+	@Override
 	public boolean updateUserProductQuantityByadd1(UserProductUpdateRequestDto updto) {
 		
 		try {
