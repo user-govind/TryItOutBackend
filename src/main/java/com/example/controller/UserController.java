@@ -35,6 +35,7 @@ import com.example.exception.UserRegistrationException;
 import com.example.service.CartService;
 import com.example.service.EmailService;
 import com.example.service.UserServiceImple;
+import com.example.utility.UserProfileDto;
 
 @RestController
 @CrossOrigin
@@ -275,15 +276,15 @@ public class UserController {
 			throw e;
 		}
   }
-//	
-//	@PostMapping("/user-profile-info/{userId}")
-//	public UserInfoResponseDto getUserProfileInfo(@PathVariable int userId) {
-//		try {
-//		 	return userServ.getUserProfileInfo(userId);
-//		}
-//		catch(UserException e) {
-//			throw e;
-//		}
-//	}
+	
+	@PostMapping("/user-profile-info/{userId}")
+	public  UserProfileDto getUserProfileInfo(@PathVariable int userId) {
+		try {
+		 	return userServ.getUserProfileInfo(userId);
+		}
+		catch(UserException e) {
+			throw e;
+		}
+	}
     
 }

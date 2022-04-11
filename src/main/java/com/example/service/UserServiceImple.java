@@ -27,91 +27,82 @@ import com.example.repository.GenericProductReopository;
 import com.example.repository.GenericUserProductRepo;
 import com.example.repository.GenericUserRepository;
 import com.example.repository.GenricAddressRepo;
-
-
+import com.example.utility.UserProfileDto;
 
 @Service
 @Transactional
 public class UserServiceImple implements UserService {
-	
+
 	@Autowired
 	private GenericUserProductRepo genUserproductsRepo;
-	
+
 	@Autowired
 	private GenericUserRepository genUserRepo;
-	
+
 	@Autowired
 	private GenericCartRepo genCartRepo;
-	
+
 	@Autowired
 	private GenericProductReopository genProductRepo;
-	
+
 	@Autowired
 	private GenricAddressRepo genAddressRepo;
 
 	@Override
 	public User addUser(User u) {
-		
-		try
-		{
+
+		try {
 			return genUserRepo.save(u);
-		}
-		catch (Exception e){
-			
+		} catch (Exception e) {
+
 			throw new UserRegistrationException("Already registered!");
-			
+
 		}
-		
+
 	}
-	
+
 	@Override
 	public UserLoginDto authenticateUser(UserLoginDto uld) {
-		User u= null;
+		User u = null;
 		uld.setPassword(uld.getPassword());
 		UserLoginDto userDetails = new UserLoginDto();
 		try {
-			if((u = genUserRepo.findByEmailAndPassword(uld.getEmail(),uld.getPassword()))!=null) {
-				
+			if ((u = genUserRepo.findByEmailAndPassword(uld.getEmail(), uld.getPassword())) != null) {
+
 				userDetails.setRoleId(u.getRole());
 				userDetails.setUserId(u.getUserId());
 				userDetails.setStatus(true);
 				return userDetails;
-			}
-			else 
-			{
+			} else {
 				throw new UserException("User Not found!! Please try again.");
 			}
-		 
-		}
-		catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UserException("User Not found!! Please try again.");
 		}
-		
+
 	}
-	
-	public List<User> getAllUsersList(){
+
+	public List<User> getAllUsersList() {
 		try {
 			return genUserRepo.findAll();
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			throw e;
 		}
 	}
-	
 
 	@Override
 	public User getUserById(int id) {
-		
+
 		try {
 			return genUserRepo.findById(id).get();
-		}catch(Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println(id);
 			e.printStackTrace();
 			throw new UserException("User with id not found");
 		}
-		
+
 	}
 
 	@Override
@@ -120,17 +111,17 @@ public class UserServiceImple implements UserService {
 		try {
 			User u = getUserById(p.getUserid());
 			Cart c = genCartRepo.findByUser(u);
-			
-			cartProduct  = new UserProducts();
-			
+
+			cartProduct = new UserProducts();
+
 			cartProduct.setCart(c);
 			cartProduct.setColour(p.getColour());
 			cartProduct.setSize(p.getSize());
 			Product product = genProductRepo.findById(p.getProductid()).get();
 			String visiblity = "Pending";
-			UserProducts up = genUserproductsRepo.findByProductAndCartAndVisiblity(product,c,visiblity);
+			UserProducts up = genUserproductsRepo.findByProductAndCartAndVisiblity(product, c, visiblity);
 
-			if(up==null)
+			if (up == null)
 				cartProduct.setProduct(product);
 			else {
 				throw new UserAlreadyPresent();
@@ -138,32 +129,29 @@ public class UserServiceImple implements UserService {
 			cartProduct.setQuantity(p.getQuantity());
 			cartProduct.setVisiblity(p.getStatus());
 
-			
-		return	genUserproductsRepo.save(cartProduct);
-			
-			
-		}
-		catch(UserAlreadyPresent e) {
+			return genUserproductsRepo.save(cartProduct);
+
+		} catch (UserAlreadyPresent e) {
 			e.printStackTrace();
 			throw new UserAlreadyPresent("User is already present");
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UserException("Cart");
 		}
-		
+
 	}
 
 	@Override
 	public List<CartProductsResponseDto> getAllCartProducts(int cartId) {
-		
+
 		try {
 			List<CartProductsResponseDto> product = new ArrayList<CartProductsResponseDto>();
-			List<UserProducts> up = genUserproductsRepo.findAllProductsWhereVisiblityIsPendingAndCartIdIsPresent(genCartRepo.findById(cartId).get());
+			List<UserProducts> up = genUserproductsRepo
+					.findAllProductsWhereVisiblityIsPendingAndCartIdIsPresent(genCartRepo.findById(cartId).get());
 			for (UserProducts x : up) {
-				
+
 				CartProductsResponseDto cp = new CartProductsResponseDto();
-				
+
 				cp.setBrand(x.getProduct().getBrand());
 				cp.setColour(x.getColour());
 				cp.setName(x.getProduct().getName());
@@ -174,64 +162,67 @@ public class UserServiceImple implements UserService {
 				cp.setSize(x.getSize());
 				product.add(cp);
 			}
-			
+
 			System.out.println(up);
 			return product;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
-		
+
 	}
 
 	@Override
 	public boolean updateUserProductQuantityByadd1(UserProductUpdateRequestDto updto) {
-		
+
 		try {
-			 genUserproductsRepo.updateUserProductQuantityByplus1(updto.getQuantity(), updto.getUserCartId(),updto.getProductId() );
-				return true;
-		}
-		catch(Exception e ) {
+			genUserproductsRepo.updateUserProductQuantityByplus1(updto.getQuantity(), updto.getUserCartId(),
+					updto.getProductId());
+			return true;
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 
 	}
+
 	@Override
-public boolean updateUserProductQuantityBySub1(UserProductUpdateRequestDto updto) {
-		
+	public boolean updateUserProductQuantityBySub1(UserProductUpdateRequestDto updto) {
+
 		try {
-			 genUserproductsRepo.updateUserProductQuantityByminus1(updto.getQuantity(), updto.getUserCartId(), updto.getProductId() );
+			genUserproductsRepo.updateUserProductQuantityByminus1(updto.getQuantity(), updto.getUserCartId(),
+					updto.getProductId());
 			return true;
-			
-		}catch(Exception e) {
-			throw e;
-		}
-}
-	public boolean updateUserCartProducts(int cid) {
-		
-		try {
-			genUserproductsRepo.updateCartProductsVisiblity(genCartRepo.findById(cid).get());
-			return true;
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			throw e;
 		}
 	}
-	
-	public boolean addAddress(UserAddressRequestDto userAddress ) {
-		
+
+	public boolean updateUserCartProducts(int cid) {
+
+		try {
+			genUserproductsRepo.updateCartProductsVisiblity(genCartRepo.findById(cid).get());
+			return true;
+
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	public boolean addAddress(UserAddressRequestDto userAddress) {
+
 		try {
 			UserAddress uAdd = new UserAddress();
-			
-			UserAddress ua = genAddressRepo.findByUserAndAddLine1AndAddLine2AndCity(genUserRepo.findById(userAddress.getUid()).get(),
-					userAddress.getAddress1(), userAddress.getAddress2(), userAddress.getCity());
-			
-			if(ua!=null) {
+
+			UserAddress ua = genAddressRepo.findByUserAndAddLine1AndAddLine2AndCity(
+					genUserRepo.findById(userAddress.getUid()).get(), userAddress.getAddress1(),
+					userAddress.getAddress2(), userAddress.getCity());
+
+			if (ua != null) {
 				return false;
 			}
-			
+
 			uAdd.setAddLine1(userAddress.getAddress1());
 			uAdd.setAddLine2(userAddress.getAddress2());
 			uAdd.setCity(userAddress.getCity());
@@ -241,42 +232,50 @@ public boolean updateUserProductQuantityBySub1(UserProductUpdateRequestDto updto
 			uAdd.setPostalCode(userAddress.getZip());
 			uAdd.setState(userAddress.getState());
 			uAdd.setUser(genUserRepo.findById(userAddress.getUid()).get());
-			
+
 			genAddressRepo.save(uAdd);
-			
+
 			return true;
-			
-		}catch(Exception e)
-		{
+
+		} catch (Exception e) {
 			throw e;
 		}
 	}
 
-	
-
-@Override
-public boolean deleteProductFromTheCart(UserProductDeleteRequestDto delprod) {
-	try {
-		genUserproductsRepo.deleteProductFromCart(delprod.getProductId(), delprod.getUserCartId());
-		return true;
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		throw e;
+	@Override
+	public boolean deleteProductFromTheCart(UserProductDeleteRequestDto delprod) {
+		try {
+			genUserproductsRepo.deleteProductFromCart(delprod.getProductId(), delprod.getUserCartId());
+			return true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw e;
+		}
 	}
-}
 
+	@Override
+	public Boolean clearCart(int cartId) {
 
-@Override
-public Boolean clearCart(int cartId) {
-
-	try {
-		genUserproductsRepo.deleteCart(genCartRepo.findById(cartId).get());
-		return true;
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		throw e;
+		try {
+			genUserproductsRepo.deleteCart(genCartRepo.findById(cartId).get());
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
-}
+
+	@Override
+	public UserProfileDto getUserProfileInfo(int id) {
+
+		try
+		{
+			return genUserRepo.getUserProfileInfo(id);
+		}
+		catch(Exception e) {
+			throw new UserException("User Details not found");
+			
+		}
+	}
 }

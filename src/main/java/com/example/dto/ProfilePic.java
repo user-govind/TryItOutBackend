@@ -3,19 +3,24 @@ package com.example.dto;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ProfilePic {
+	private int userId;
 	
-	private int id;
-	private MultipartFile profilePic;
+	private MultipartFile userProfilePic;
+
 	public int getId() {
-		return id;
+		return userId;
 	}
-	public void setId(int id) {
-		this.id = id;
+
+	public void setId(int userId) {
+		this.userId = userId;
 	}
+
 	public MultipartFile getProfilePic() {
-		return profilePic;
+		return userProfilePic;
 	}
-	public void setProfilePic(MultipartFile profilePic) {
-		this.profilePic = profilePic;
-	} 
+
+	public void setProfilePic(MultipartFile userProfilePic) {
+		this.userProfilePic = userProfilePic;
+	}
+	
 }

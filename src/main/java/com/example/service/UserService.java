@@ -2,19 +2,14 @@ package com.example.service;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestBody;
-
 import com.example.dto.CartProductsRequestDto;
 import com.example.dto.CartProductsResponseDto;
 import com.example.dto.UserLoginDto;
 import com.example.dto.UserProductDeleteRequestDto;
 import com.example.dto.UserProductUpdateRequestDto;
-import com.example.dto.CartProductsRequestDto;
-import com.example.dto.CartProductsResponseDto;
-import com.example.dto.UserLoginDto;
-import com.example.entity.Product;
 import com.example.entity.User;
 import com.example.entity.UserProducts;
+import com.example.utility.UserProfileDto;
 
 public interface UserService {
 
@@ -33,6 +28,8 @@ public interface UserService {
 	public boolean updateUserProductQuantityBySub1(UserProductUpdateRequestDto updto);
 	
 	public boolean deleteProductFromTheCart(UserProductDeleteRequestDto delprod);
+	
+	public UserProfileDto getUserProfileInfo(int id);
 	
 	public Boolean clearCart(int cartId);
 }
