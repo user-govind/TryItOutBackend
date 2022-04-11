@@ -35,6 +35,14 @@ public class UserAddress {
 	private String fname;
 	private String lname;
 	
+	private boolean isDefault;
+	
+	public boolean isDefault() {
+		return isDefault;
+	}
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
 	public String getFname() {
 		return fname;
 	}

@@ -27,8 +27,12 @@ public interface UserService {
 	public UserProducts addtoCartProduct(CartProductsRequestDto c);
 	
 	public List<CartProductsResponseDto> getAllCartProducts(int cartid);
+	
 	public boolean updateUserProductQuantityByadd1(UserProductUpdateRequestDto updto);
+	
 	public boolean updateUserProductQuantityBySub1(UserProductUpdateRequestDto updto);
+	
 	public boolean deleteProductFromTheCart(UserProductDeleteRequestDto delprod);
-	public Boolean clearCart(UserProductDeleteRequestDto productDto);
+	
+	public Boolean clearCart(int cartId);
 }

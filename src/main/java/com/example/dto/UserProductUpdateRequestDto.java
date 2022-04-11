@@ -1,10 +1,14 @@
 package com.example.dto;
 
 public class UserProductUpdateRequestDto {
+	
 	private int userCartId;
+	
 	private int quantity;
-
+	
 	private int productId;
+	
+	
 	public int getProductId() {
 		return productId;
 	}

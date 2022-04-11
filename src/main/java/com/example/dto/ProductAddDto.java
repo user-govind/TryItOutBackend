@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ProductAddDto {
 	
+	private int id;
 	
 	private String Name;
 
@@ -15,8 +16,6 @@ public class ProductAddDto {
 	
 	private int price;
 
-
-	
 	private String category;
 	
 	private String gender;
@@ -26,6 +25,16 @@ public class ProductAddDto {
 	private String brand;
 	
 	private MultipartFile productImg;
+	
+	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return Name;

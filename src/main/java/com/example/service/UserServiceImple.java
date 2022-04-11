@@ -54,8 +54,6 @@ public class UserServiceImple implements UserService {
 		
 		try
 		{
-			u.setPassword(((Integer)u.getPassword().hashCode()).toString());
-			
 			return genUserRepo.save(u);
 		}
 		catch (Exception e){
@@ -69,8 +67,7 @@ public class UserServiceImple implements UserService {
 	@Override
 	public UserLoginDto authenticateUser(UserLoginDto uld) {
 		User u= null;
-		uld.setPassword(((Integer)uld.getPassword().hashCode()).toString());
-
+		uld.setPassword(uld.getPassword());
 		UserLoginDto userDetails = new UserLoginDto();
 		try {
 			if((u = genUserRepo.findByEmailAndPassword(uld.getEmail(),uld.getPassword()))!=null) {
@@ -92,6 +89,16 @@ public class UserServiceImple implements UserService {
 		}
 		
 	}
+	
+	public List<User> getAllUsersList(){
+		try {
+			return genUserRepo.findAll();
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
 
 	@Override
 	public User getUserById(int id) {
@@ -120,7 +127,7 @@ public class UserServiceImple implements UserService {
 			cartProduct.setColour(p.getColour());
 			cartProduct.setSize(p.getSize());
 			Product product = genProductRepo.findById(p.getProductid()).get();
-      String visiblity = "Pending";
+			String visiblity = "Pending";
 			UserProducts up = genUserproductsRepo.findByProductAndCartAndVisiblity(product,c,visiblity);
 
 			if(up==null)
@@ -261,10 +268,10 @@ public boolean deleteProductFromTheCart(UserProductDeleteRequestDto delprod) {
 
 
 @Override
-public Boolean clearCart(UserProductDeleteRequestDto productDto) {
+public Boolean clearCart(int cartId) {
 
 	try {
-		genUserproductsRepo.deleteCart(productDto.getUserCartId());
+		genUserproductsRepo.deleteCart(genCartRepo.findById(cartId).get());
 		return true;
 	} catch (Exception e) {
 		// TODO Auto-generated catch block

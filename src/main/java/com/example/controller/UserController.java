@@ -11,7 +11,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +24,7 @@ import com.example.dto.OtpVerify;
 import com.example.dto.ProfilePic;
 import com.example.dto.UserAddressRequestDto;
 import com.example.dto.UserLoginDto;
-
 import com.example.dto.UserProductDeleteRequestDto;
-
 import com.example.dto.UserProductUpdateRequestDto;
 import com.example.entity.Cart;
 import com.example.entity.Role;
@@ -52,8 +49,6 @@ public class UserController {
 	
 	@Autowired
 	private CartService cartService;
-	
-
 	
 	
 	Map<String,Integer> userOtpSession = new HashMap<String, Integer>();
@@ -84,6 +79,18 @@ public class UserController {
 		
 		return true;
 	}
+	
+	@PostMapping("/getUsers")
+	public List<User> findAllUserList(){
+		try {
+			return userServ.getAllUsersList();
+			
+		}catch(Exception e) {
+			throw new UserException("Users Not found");
+		}
+	}
+	
+	
 	
 	@PostMapping("/login")
 	public UserLoginDto CheckUser(@RequestBody UserLoginDto uld){
@@ -258,15 +265,25 @@ public class UserController {
 	}
   
   
-	@PutMapping("/clear-cart")
-	public Boolean clearUserCart(@RequestBody UserProductDeleteRequestDto productDto) {
+	@PutMapping("/clear-cart/{cartId}")
+	public Boolean clearUserCart(@PathVariable int cartId) {
 		
 		try {
-			return userServ.clearCart(productDto);
+			return userServ.clearCart(cartId);
 
     }	catch(Exception e) {
 			throw e;
 		}
   }
+//	
+//	@PostMapping("/user-profile-info/{userId}")
+//	public UserInfoResponseDto getUserProfileInfo(@PathVariable int userId) {
+//		try {
+//		 	return userServ.getUserProfileInfo(userId);
+//		}
+//		catch(UserException e) {
+//			throw e;
+//		}
+//	}
     
 }

@@ -41,7 +41,7 @@ public interface GenericUserProductRepo extends JpaRepository<UserProducts,Integ
 	
 	@Modifying
 	@Query(value="update user_products set visiblity= 'deleted' where cart_id= :cid", nativeQuery=true)
-	public void deleteCart(@Param("cid") int cartId); 
+	public void deleteCart(@Param("cid") Cart cartId); 
 
 	@Query(value = "select id as Id , price as Price, payment_table.payment_date as PaymentDate, "
 			+ "payment_table.amount as Amount, payment_table.payment_id as PaymentId, payment_table.provider as "

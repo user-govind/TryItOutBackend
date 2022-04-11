@@ -37,33 +37,56 @@ public class ProductController {
 			
 		}	
 	}
-	
-
 	@PostMapping("/add-product")
 	public boolean addProductInfo( ProductAddDto product) {
 		
 		Product p = new Product();
+		System.out.println(product.getId());
 		try {
-		p.setName(product.getName());
-		p.setBrand(product.getBrand());
-		p.setCategory(product.getCategory());
-		p.setColour(product.getColour());
-		p.setGender(product.getGender());
-		p.setPrice(product.getPrice());
-		p.setDescription(product.getDescription());
-		p.setQuantity(product.getQuantity());
+		
+		if(product.getId()== -1) {
+			p.setName(product.getName());
+			p.setBrand(product.getBrand());
+			p.setCategory(product.getCategory());
+			p.setColour(product.getColour());
+			p.setGender(product.getGender());
+			p.setPrice(product.getPrice());
+			p.setDescription(product.getDescription());
+			p.setQuantity(product.getQuantity());
+			p.setStatus("Added");
 
-		p = productService.addProduct(p);
-		
-		
-		
-		String fileName =  p.getProductId() + "-" + product.getProductImg().getOriginalFilename();
-		
-		FileCopyUtils.copy(product.getProductImg().getInputStream(), new FileOutputStream("C:/Users/ASUS/Desktop/C-DAC KH/Final project/Front-end/try-it-out.com/src/Product-Images/" + fileName));
+			p = productService.addProduct(p);
+			
+			String fileName =  p.getProductId() + "-" + product.getProductImg().getOriginalFilename();
+			
+			FileCopyUtils.copy(product.getProductImg().getInputStream(), new FileOutputStream("C:/Users/ASUS/Desktop/C-DAC KH/Final project/Front-end/try-it-out.com/src/Product-Images/" + fileName));
 
-		p.setProductImg(fileName);
-		
-		p = productService.addProduct(p);
+			p.setProductImg(fileName);
+			
+			p = productService.addProduct(p);
+		}
+		else {
+			p.setProductId(product.getId());
+			p.setName(product.getName());
+			p.setBrand(product.getBrand());
+			p.setCategory(product.getCategory());
+			p.setColour(product.getColour());
+			p.setGender(product.getGender());
+			p.setPrice(product.getPrice());
+			p.setDescription(product.getDescription());
+			p.setQuantity(product.getQuantity());
+			p.setStatus("Added");
+			
+			String fileName =  p.getProductId() + "-" + product.getProductImg().getOriginalFilename();
+			
+			FileCopyUtils.copy(product.getProductImg().getInputStream(), new FileOutputStream("C:/Users/ASUS/Desktop/C-DAC KH/Final project/Front-end/try-it-out.com/src/Product-Images/" + fileName));
+
+			p.setProductImg(fileName);
+			
+			p = productService.addProduct(p);
+
+		}
+	
 		
 		}
 		catch(Exception e) {
