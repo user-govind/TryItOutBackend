@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.dto.CartProductsRequestDto;
 import com.example.dto.CartProductsResponseDto;
+import com.example.dto.ClearCartRequestDto;
 import com.example.dto.UserProductDeleteRequestDto;
 import com.example.dto.UserAddressRequestDto;
 import com.example.dto.UserLoginDto;
@@ -261,7 +262,7 @@ public boolean deleteProductFromTheCart(UserProductDeleteRequestDto delprod) {
 
 
 @Override
-public Boolean clearCart(UserProductDeleteRequestDto productDto) {
+public boolean clearCart(ClearCartRequestDto productDto) {
 
 	try {
 		genUserproductsRepo.deleteCart(productDto.getUserCartId());

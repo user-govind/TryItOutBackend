@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.dto.CartProductsRequestDto;
 import com.example.dto.CartProductsResponseDto;
+import com.example.dto.ClearCartRequestDto;
 import com.example.dto.UserLoginDto;
 import com.example.dto.UserProductDeleteRequestDto;
 import com.example.dto.UserProductUpdateRequestDto;
@@ -30,5 +31,5 @@ public interface UserService {
 	public boolean updateUserProductQuantityByadd1(UserProductUpdateRequestDto updto);
 	public boolean updateUserProductQuantityBySub1(UserProductUpdateRequestDto updto);
 	public boolean deleteProductFromTheCart(UserProductDeleteRequestDto delprod);
-	public Boolean clearCart(UserProductDeleteRequestDto productDto);
+	public boolean clearCart(ClearCartRequestDto productDto);
 }

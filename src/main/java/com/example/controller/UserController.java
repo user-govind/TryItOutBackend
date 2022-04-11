@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.CartProductsRequestDto;
 import com.example.dto.CartProductsResponseDto;
+import com.example.dto.ClearCartRequestDto;
 import com.example.dto.OtpVerify;
 import com.example.dto.ProfilePic;
 import com.example.dto.UserAddressRequestDto;
@@ -259,7 +260,7 @@ public class UserController {
   
   
 	@PutMapping("/clear-cart")
-	public Boolean clearUserCart(@RequestBody UserProductDeleteRequestDto productDto) {
+	public Boolean clearUserCart(@RequestBody ClearCartRequestDto productDto) {
 		
 		try {
 			return userServ.clearCart(productDto);

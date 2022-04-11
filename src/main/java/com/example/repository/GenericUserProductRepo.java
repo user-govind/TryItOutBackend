@@ -63,5 +63,3 @@ public interface GenericUserProductRepo extends JpaRepository<UserProducts,Integ
 	public void updateUserProductQuantityByplus1(@Param("q") int quantity,@Param("cid") int cartId);
 
 }
-
-
