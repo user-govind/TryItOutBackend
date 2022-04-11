@@ -15,6 +15,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
+
 @Entity
 @Table(name = "payment_table")
 public class PaymentDetails {
@@ -65,6 +69,7 @@ public class PaymentDetails {
 
 	@ManyToOne
 	@JoinColumn(name="userId", nullable=false)
+	@JsonIgnore
 	private User user;
 	
 //	@JsonFormat(pattern = "dd/mm/yyyy HH:MM:SS")

@@ -6,12 +6,17 @@ import org.springframework.stereotype.Service;
 import com.example.entity.Cart;
 import com.example.exception.UserException;
 import com.example.repository.GenericCartRepo;
+import com.example.repository.GenericUserRepository;
+
 
 @Service
 public class CartServiceImple implements CartService {
 
 	@Autowired
 	private GenericCartRepo cartRepo;
+	
+	@Autowired
+	private GenericUserRepository userRepo;
 	
 	@Override
 	public Cart addUserCart(Cart c) {
@@ -26,6 +31,15 @@ public class CartServiceImple implements CartService {
 		
 	}
 	
-	
-
+	@Override
+	public int getCartId(int uid) {
+		
+		try {
+			
+			return cartRepo.findByUser(userRepo.findById(uid).get()).getCartId();
+		}catch(Exception e){
+			throw e;
+		}
+	}
 }
+	

@@ -69,6 +69,17 @@ public class User {
 	@OneToMany(mappedBy="user")
 	@JsonIgnore
 	private List<Cart> cart;
+	
+	@OneToMany(mappedBy="user")
+	private List<PaymentDetails> payments;
+
+	public List<PaymentDetails> getPayments() {
+		return payments;
+	}
+
+	public void setPayments(List<PaymentDetails> payments) {
+		this.payments = payments;
+	}
 
 	public int getUserId() {
 		return userId;
