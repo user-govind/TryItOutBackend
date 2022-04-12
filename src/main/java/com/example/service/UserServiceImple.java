@@ -214,6 +214,7 @@ public class UserServiceImple implements UserService {
 
 		try {
 			UserAddress uAdd = new UserAddress();
+			System.out.println(userAddress.isDefault());
 
 			UserAddress ua = genAddressRepo.findByUserAndAddLine1AndAddLine2AndCity(
 					genUserRepo.findById(userAddress.getUid()).get(), userAddress.getAddress1(),
@@ -222,7 +223,42 @@ public class UserServiceImple implements UserService {
 			if (ua != null) {
 				return false;
 			}
-
+			
+			if(userAddress.isDefault()) {
+				UserAddress uadd = genAddressRepo.findByIsDefault(true);
+				System.out.println(uadd);
+				if(uadd!=null) {
+					uadd.setDefault(false);
+					genAddressRepo.save(uadd);
+					uAdd.setAddLine1(userAddress.getAddress1());
+					uAdd.setAddLine2(userAddress.getAddress2());
+					uAdd.setCity(userAddress.getCity());
+					uAdd.setCountry(userAddress.getCountry());
+					uAdd.setFname(userAddress.getFirstName());
+					uAdd.setLname(userAddress.getLastName());
+					uAdd.setPostalCode(userAddress.getZip());
+					uAdd.setState(userAddress.getState());
+					uAdd.setUser(genUserRepo.findById(userAddress.getUid()).get());
+					uAdd.setDefault(true);
+					genAddressRepo.save(uAdd);
+				}
+				else
+				{
+					uAdd.setAddLine1(userAddress.getAddress1());
+					uAdd.setAddLine2(userAddress.getAddress2());
+					uAdd.setCity(userAddress.getCity());
+					uAdd.setCountry(userAddress.getCountry());
+					uAdd.setFname(userAddress.getFirstName());
+					uAdd.setLname(userAddress.getLastName());
+					uAdd.setPostalCode(userAddress.getZip());
+					uAdd.setState(userAddress.getState());
+					uAdd.setUser(genUserRepo.findById(userAddress.getUid()).get());
+					uAdd.setDefault(true);
+					genAddressRepo.save(uAdd);
+				}
+			}
+			else {
+			
 			uAdd.setAddLine1(userAddress.getAddress1());
 			uAdd.setAddLine2(userAddress.getAddress2());
 			uAdd.setCity(userAddress.getCity());
@@ -232,8 +268,9 @@ public class UserServiceImple implements UserService {
 			uAdd.setPostalCode(userAddress.getZip());
 			uAdd.setState(userAddress.getState());
 			uAdd.setUser(genUserRepo.findById(userAddress.getUid()).get());
-
+			uAdd.setDefault(false);
 			genAddressRepo.save(uAdd);
+			}
 
 			return true;
 

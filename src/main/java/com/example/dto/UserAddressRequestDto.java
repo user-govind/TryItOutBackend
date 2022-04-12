@@ -10,8 +10,15 @@ public class UserAddressRequestDto {
 	private String lastName;
 	private int zip;
 	private String country;
+	private boolean isDefault=true;
 	private int uid;
 	
+	public boolean isDefault() {
+		return isDefault;
+	}
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
 	public int getUid() {
 		return uid;
 	}

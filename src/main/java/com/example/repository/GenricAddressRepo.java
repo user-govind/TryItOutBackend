@@ -8,4 +8,6 @@ import com.example.entity.UserAddress;
 public interface GenricAddressRepo extends JpaRepository<UserAddress,Integer> {
 
 	public UserAddress findByUserAndAddLine1AndAddLine2AndCity(User u, String a, String b , String c);
+	
+	public UserAddress findByIsDefault(boolean defaultvalue);
 }
