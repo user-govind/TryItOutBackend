@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.dto.CartProductsRequestDto;
 import com.example.dto.CartProductsResponseDto;
-import com.example.dto.UserProductDeleteRequestDto;
+import com.example.dto.UserAddressDto;
 import com.example.dto.UserAddressRequestDto;
 import com.example.dto.UserLoginDto;
+import com.example.dto.UserProductDeleteRequestDto;
 import com.example.dto.UserProductUpdateRequestDto;
+import com.example.dto.UserProfileInfoDto;
 import com.example.entity.Cart;
 import com.example.entity.Product;
 import com.example.entity.User;
@@ -65,6 +67,7 @@ public class UserServiceImple implements UserService {
 	public UserLoginDto authenticateUser(UserLoginDto uld) {
 		User u = null;
 		uld.setPassword(uld.getPassword());
+		System.out.println(uld.getPassword());
 		UserLoginDto userDetails = new UserLoginDto();
 		try {
 			if ((u = genUserRepo.findByEmailAndPassword(uld.getEmail(), uld.getPassword())) != null) {
@@ -72,6 +75,7 @@ public class UserServiceImple implements UserService {
 				userDetails.setRoleId(u.getRole());
 				userDetails.setUserId(u.getUserId());
 				userDetails.setStatus(true);
+				userDetails.setUserImg(u.getImage());
 				return userDetails;
 			} else {
 				throw new UserException("User Not found!! Please try again.");
@@ -215,7 +219,6 @@ public class UserServiceImple implements UserService {
 		try {
 			UserAddress uAdd = new UserAddress();
 			System.out.println(userAddress.isDefault());
-
 			UserAddress ua = genAddressRepo.findByUserAndAddLine1AndAddLine2AndCity(
 					genUserRepo.findById(userAddress.getUid()).get(), userAddress.getAddress1(),
 					userAddress.getAddress2(), userAddress.getCity());
@@ -315,4 +318,47 @@ public class UserServiceImple implements UserService {
 			
 		}
 	}
+
+	public boolean updateAddress(UserAddressDto uAdd) {
+
+		try 
+		{
+			System.out.println("in user Imple");
+			System.out.println(uAdd.getAddId());
+			UserAddress userAdd = genAddressRepo.findById(uAdd.getAddId()).get();
+			System.out.println(userAdd);
+			
+			userAdd.setAddLine1(uAdd.getAddLine1());
+			userAdd.setAddLine2(uAdd.getAddLine2());
+			userAdd.setCity(uAdd.getCity());
+			userAdd.setCountry(uAdd.getCountry());
+			userAdd.setPostalCode(uAdd.getPostalCode());
+			userAdd.setState(uAdd.getState());
+			System.out.println(userAdd);
+			if(genAddressRepo.save(userAdd)!=null)
+			return true;
+			else
+				return false;
+		}
+		catch(Exception e) {
+			throw new UserException("Address not updated");
+		}
+	}
+	
+	public boolean userInfoUpdate(UserProfileInfoDto userDto) {
+		try {
+			User u = genUserRepo.findById(userDto.getUserId()).get();
+			
+			u.setFirstName(userDto.getFirstName());
+			u.setLastName(userDto.getLastName());
+			u.setMobile(userDto.getMobile());
+			
+			if(genUserRepo.save(u)!=null)
+				return true;
+			return false;
+		}catch(Exception e) {
+			throw new UserException("User not updated");
+		}
+	}
+	
 }

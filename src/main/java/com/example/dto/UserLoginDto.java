@@ -15,6 +15,24 @@ public class UserLoginDto {
 	private int userId;
 	
 	private Role role;
+	
+	private String userImg;
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public String getUserImg() {
+		return userImg;
+	}
+
+	public void setUserImg(String userImg) {
+		this.userImg = userImg;
+	}
 
 	public boolean isStatus() {
 		return status;

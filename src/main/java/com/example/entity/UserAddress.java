@@ -24,17 +24,14 @@ public class UserAddress {
 	@ManyToOne
 	@JoinColumn(name="userId", nullable=false)
 	private User user;
-	
 	private String addLine1;
 	private String addLine2;
 	private String city;
 	private int PostalCode;
 	private String country;
 	private String state;
-	
 	private String fname;
 	private String lname;
-	
 	private boolean isDefault;
 	
 	public boolean isDefault() {
@@ -43,7 +40,7 @@ public class UserAddress {
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
 	}
-	public String getFname() {
+	public String getFname() {	
 		return fname;
 	}
 	public void setFname(String fname) {
@@ -122,6 +119,15 @@ public class UserAddress {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+	@Override
+	public String toString() {
+		return "UserAddress [AddressId=" + AddressId + ", addLine1=" + addLine1 + ", addLine2=" + addLine2 + ", city="
+				+ city + ", PostalCode=" + PostalCode + ", country=" + country + ", state=" + state + ", fname=" + fname
+				+ ", lname=" + lname + ", isDefault=" + isDefault + ", creationTimestamp=" + creationTimestamp
+				+ ", updationTimestamp=" + updationTimestamp + "]";
+	}
+	
+	
 	
 
 }

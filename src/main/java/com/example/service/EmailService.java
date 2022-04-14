@@ -21,7 +21,7 @@ public class EmailService {
 		
 		int otp = random.nextInt(100000,999999);
 		
-		msg.setFrom("Try-It-Out-Official@gamil.com");
+		msg.setFrom("learningpie123@gmail.com");
 		
 		msg.setTo(email);
 		

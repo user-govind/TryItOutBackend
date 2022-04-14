@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.example.dto.CartProductsRequestDto;
 import com.example.dto.CartProductsResponseDto;
+import com.example.dto.UserAddressDto;
 import com.example.dto.UserLoginDto;
 import com.example.dto.UserProductDeleteRequestDto;
 import com.example.dto.UserProductUpdateRequestDto;
+import com.example.dto.UserProfileInfoDto;
 import com.example.entity.User;
 import com.example.entity.UserProducts;
 import com.example.utility.UserProfileDto;
@@ -32,4 +34,8 @@ public interface UserService {
 	public UserProfileDto getUserProfileInfo(int id);
 	
 	public Boolean clearCart(int cartId);
+	
+	public boolean updateAddress(UserAddressDto uAdd);
+	
+	public boolean userInfoUpdate(UserProfileInfoDto userDto);
 }

@@ -26,4 +26,5 @@ public interface UserProfileDto {
 	
 	String getState();
 	
+	int getAddId();
 }
