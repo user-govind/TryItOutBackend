@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.dto.CartItemsCountResponseDto;
 import com.example.dto.CartProductsRequestDto;
 import com.example.dto.CartProductsResponseDto;
 import com.example.dto.UserAddressDto;
@@ -226,11 +227,11 @@ public class UserServiceImple implements UserService {
 			if (ua != null) {
 				return false;
 			}
-			
-			if(userAddress.isDefault()) {
+
+			if (userAddress.isDefault()) {
 				UserAddress uadd = genAddressRepo.findByIsDefault(true);
 				System.out.println(uadd);
-				if(uadd!=null) {
+				if (uadd != null) {
 					uadd.setDefault(false);
 					genAddressRepo.save(uadd);
 					uAdd.setAddLine1(userAddress.getAddress1());
@@ -244,9 +245,7 @@ public class UserServiceImple implements UserService {
 					uAdd.setUser(genUserRepo.findById(userAddress.getUid()).get());
 					uAdd.setDefault(true);
 					genAddressRepo.save(uAdd);
-				}
-				else
-				{
+				} else {
 					uAdd.setAddLine1(userAddress.getAddress1());
 					uAdd.setAddLine2(userAddress.getAddress2());
 					uAdd.setCity(userAddress.getCity());
@@ -259,20 +258,19 @@ public class UserServiceImple implements UserService {
 					uAdd.setDefault(true);
 					genAddressRepo.save(uAdd);
 				}
-			}
-			else {
-			
-			uAdd.setAddLine1(userAddress.getAddress1());
-			uAdd.setAddLine2(userAddress.getAddress2());
-			uAdd.setCity(userAddress.getCity());
-			uAdd.setCountry(userAddress.getCountry());
-			uAdd.setFname(userAddress.getFirstName());
-			uAdd.setLname(userAddress.getLastName());
-			uAdd.setPostalCode(userAddress.getZip());
-			uAdd.setState(userAddress.getState());
-			uAdd.setUser(genUserRepo.findById(userAddress.getUid()).get());
-			uAdd.setDefault(false);
-			genAddressRepo.save(uAdd);
+			} else {
+
+				uAdd.setAddLine1(userAddress.getAddress1());
+				uAdd.setAddLine2(userAddress.getAddress2());
+				uAdd.setCity(userAddress.getCity());
+				uAdd.setCountry(userAddress.getCountry());
+				uAdd.setFname(userAddress.getFirstName());
+				uAdd.setLname(userAddress.getLastName());
+				uAdd.setPostalCode(userAddress.getZip());
+				uAdd.setState(userAddress.getState());
+				uAdd.setUser(genUserRepo.findById(userAddress.getUid()).get());
+				uAdd.setDefault(false);
+				genAddressRepo.save(uAdd);
 			}
 
 			return true;
@@ -309,25 +307,22 @@ public class UserServiceImple implements UserService {
 	@Override
 	public UserProfileDto getUserProfileInfo(int id) {
 
-		try
-		{
+		try {
 			return genUserRepo.getUserProfileInfo(id);
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			throw new UserException("User Details not found");
-			
+
 		}
 	}
 
 	public boolean updateAddress(UserAddressDto uAdd) {
 
-		try 
-		{
+		try {
 			System.out.println("in user Imple");
 			System.out.println(uAdd.getAddId());
 			UserAddress userAdd = genAddressRepo.findById(uAdd.getAddId()).get();
 			System.out.println(userAdd);
-			
+
 			userAdd.setAddLine1(uAdd.getAddLine1());
 			userAdd.setAddLine2(uAdd.getAddLine2());
 			userAdd.setCity(uAdd.getCity());
@@ -335,30 +330,45 @@ public class UserServiceImple implements UserService {
 			userAdd.setPostalCode(uAdd.getPostalCode());
 			userAdd.setState(uAdd.getState());
 			System.out.println(userAdd);
-			if(genAddressRepo.save(userAdd)!=null)
-			return true;
+			if (genAddressRepo.save(userAdd) != null)
+				return true;
 			else
 				return false;
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			throw new UserException("Address not updated");
 		}
 	}
-	
+
 	public boolean userInfoUpdate(UserProfileInfoDto userDto) {
 		try {
 			User u = genUserRepo.findById(userDto.getUserId()).get();
-			
+
 			u.setFirstName(userDto.getFirstName());
 			u.setLastName(userDto.getLastName());
 			u.setMobile(userDto.getMobile());
-			
-			if(genUserRepo.save(u)!=null)
+
+			if (genUserRepo.save(u) != null)
 				return true;
 			return false;
-		}catch(Exception e) {
+		} catch (Exception e) {
 			throw new UserException("User not updated");
 		}
 	}
-	
+
+	public CartItemsCountResponseDto getCartItemsQuantity(int cartId) {
+		CartItemsCountResponseDto dto = null;
+		try {
+			dto = new CartItemsCountResponseDto();
+			dto.setQuantity(genUserproductsRepo.getCartProductsQuantity(cartId));
+			dto.setStatus("success");
+			return dto;
+
+		} catch (Exception e) {
+			dto = new CartItemsCountResponseDto();
+			dto.setQuantity(0);
+			dto.setStatus("fail");
+			return dto;
+		}
+	}
+
 }

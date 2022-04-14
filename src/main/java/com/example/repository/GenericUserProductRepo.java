@@ -61,6 +61,9 @@ public interface GenericUserProductRepo extends JpaRepository<UserProducts,Integ
 	@Modifying
 	@Query(value="update user_products set quantity = :q + 1 where cart_id = :cid",nativeQuery=true)
 	public void updateUserProductQuantityByplus1(@Param("q") int quantity,@Param("cid") int cartId);
+	
+	@Query(value = "select sum(quantity) from user_products where cart_id = :cartId and visiblity = 'pending'",nativeQuery = true)
+	public int getCartProductsQuantity(@Param("cartId")int cartId);
 
 }
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dto.CartItemsCountResponseDto;
 import com.example.dto.CartProductsRequestDto;
 import com.example.dto.CartProductsResponseDto;
 import com.example.dto.OtpVerify;
@@ -59,7 +60,7 @@ public class UserController {
 		u.setRole(r);
 
 		try {
-			System.out.println(u.getPassword());
+			
 
 			u.setStatus("Active");
 
@@ -295,4 +296,15 @@ public class UserController {
 			return false;
 		}
 	}
+	
+	@GetMapping("/getCartQuantity/{cartId}")
+	public CartItemsCountResponseDto getCartItemsQuantity(@PathVariable int cartId) {
+		try {
+			return userServ.getCartItemsQuantity(cartId);
+		}catch(UserException e) {
+		
+			throw e;
+		}
+	}
+	
 }
